@@ -1,42 +1,6 @@
 const commonMiddleware = require("../common");
 
-module.exports.validateRegisterWithEmail = [
-  commonMiddleware.conditionalCheck("lang", commonMiddleware.checkLanguage),
-  commonMiddleware.conditionalCheck(
-    "referralCode",
-    commonMiddleware.checkLanguage
-  ),
-  commonMiddleware.checkName,
-  commonMiddleware.checkForRealName("name"),
-  commonMiddleware.checkEmail,
-  commonMiddleware.checkPhoneICC,
-  commonMiddleware.checkPhoneNSN,
-  commonMiddleware.checkPassword,
-  commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
-  ),
-  commonMiddleware.next,
-  commonMiddleware.limitRegister,
-];
-
-module.exports.validateRegisterWithGoogle = [
-  commonMiddleware.conditionalCheck("lang", commonMiddleware.checkLanguage),
-  commonMiddleware.conditionalCheck(
-    "referralCode",
-    commonMiddleware.checkLanguage
-  ),
-  commonMiddleware.checkPhoneICC,
-  commonMiddleware.checkPhoneNSN,
-  commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
-  ),
-  commonMiddleware.next,
-  commonMiddleware.limitRegister,
-];
-
-module.exports.validateLoginWithEmailOrPhone = [
+module.exports.validateJoinWithEmailAndPhone = [
   commonMiddleware.conditionalCheck("lang", commonMiddleware.checkLanguage),
   commonMiddleware.checkEmailOrPhone,
   commonMiddleware.checkPassword,
@@ -48,32 +12,7 @@ module.exports.validateLoginWithEmailOrPhone = [
   commonMiddleware.limitLogin,
 ];
 
-module.exports.validateLoginWithEmail = [
-  commonMiddleware.conditionalCheck("lang", commonMiddleware.checkLanguage),
-  commonMiddleware.checkEmail,
-  commonMiddleware.checkPassword,
-  commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
-  ),
-  commonMiddleware.next,
-  commonMiddleware.limitLogin,
-];
-
-module.exports.validateLoginWithPhone = [
-  commonMiddleware.conditionalCheck("lang", commonMiddleware.checkLanguage),
-  commonMiddleware.checkPhoneICC,
-  commonMiddleware.checkPhoneNSN,
-  commonMiddleware.checkPassword,
-  commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
-  ),
-  commonMiddleware.limitLogin,
-  commonMiddleware.next,
-];
-
-module.exports.validateLoginWithGoogle = [
+module.exports.validateJoinWithGoogle = [
   commonMiddleware.conditionalCheck("lang", commonMiddleware.checkLanguage),
   commonMiddleware.conditionalCheck(
     "deviceToken",
