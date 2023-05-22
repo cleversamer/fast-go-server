@@ -10,22 +10,33 @@ module.exports.joinWithEmailAndPhone = async (
   phoneNSN,
   firstName,
   lastName,
+  role,
   deviceToken,
   lang
 ) => {
   try {
+    let isDeleted = false;
+
     // Construct full phone
     const fullPhone = `${phoneICC}${phoneNSN}`;
 
     // Check if user exists
     const user = await User.findOne({ email, "phone.full": fullPhone });
-
-    // Check if user is deleted
-    const isDeleted = user.isDeleted();
-
-    // Check if user was deleted and restore it
-    if (user.isDeleted()) {
+    if (user) {
+      isDeleted = user.isDeleted();
       user.restoreAccount();
+    } else {
+      user = new User({
+        firstName,
+        lastName,
+        email,
+        role,
+        phone: {
+          full: fullPhone,
+          icc: phoneICC,
+          nsn: phoneNSN,
+        },
+      });
     }
 
     // Update user's device token

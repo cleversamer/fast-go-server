@@ -2,9 +2,9 @@ module.exports.APP_NAME_EN = "Fast Go";
 
 module.exports.APP_NAME_AR = "Fast Go";
 
-module.exports.APP_EMAIL = "thedev.samer@gmail.com";
+module.exports.APP_EMAIL = "fast.go6969@gmail.com";
 
-module.exports.SUPPORT_EMAIL = "thedev.samer@gmail.com";
+module.exports.SUPPORT_EMAIL = "fast.go6969@gmail.com";
 
 module.exports.PORT = process.env["PORT"] || 4000;
 
@@ -14,9 +14,9 @@ module.exports.DATABASE_URI =
   process.env["MONGODB_URI"] ||
   `mongodb://127.0.0.1:27017/${this.DATABASE_NAME}`;
 
-module.exports.PROJECT_ID = "monkey-road";
+module.exports.PROJECT_ID = "fast-go";
 
-module.exports.BUCKET_NAME = "monkey-road-bucket-1";
+module.exports.BUCKET_NAME = "fast-go-bucket-1";
 
 module.exports.MAX_FILE_UPLOAD_SIZE = 5; // In MegaBytes
 

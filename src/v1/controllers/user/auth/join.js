@@ -3,7 +3,6 @@ const {
   emailService,
   usersService,
 } = require("../../../services");
-const { user: userNotifications } = require("../../../config/notifications");
 const httpStatus = require("http-status");
 const { clientSchema } = require("../../../models/user/user");
 const _ = require("lodash");
@@ -17,6 +16,7 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
       phoneNSN,
       firstName,
       lastName,
+      role,
       deviceToken,
       socketId,
     } = req.body;
@@ -28,6 +28,7 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
       phoneNSN,
       firstName,
       lastName,
+      role,
       deviceToken,
       lang
     );
@@ -38,18 +39,23 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
       token: user.genAuthToken(),
     };
 
+    // Send response back to the client
+    res.status(httpStatus.OK).json(response);
+
     // Connect user's socket to their own room
     usersService.joinSocketToUserRoom(socketId, user._id);
 
-    // Send response back to the client
-    res.status(httpStatus.OK).json(response);
+    if (!user.isPhoneVerified()) {
+      await usersService.resendEmailOrPhoneVerificationCode("phone", user);
+      console.log("Phone verification code has been sent...");
+    }
 
     if (isDeleted) {
       // Send welcome back email to user
       await emailService.sendWelcomeBackEmail(
         user.getLanguage(),
         user.getEmail(),
-        user.getName()
+        user.getFullName()
       );
     }
   } catch (err) {
@@ -85,7 +91,7 @@ module.exports.joinWithGoogle = async (req, res, next) => {
       await emailService.sendWelcomeBackEmail(
         user.getLanguage(),
         user.getEmail(),
-        user.getName()
+        user.getFullName()
       );
     }
   } catch (err) {

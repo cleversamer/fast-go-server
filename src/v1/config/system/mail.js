@@ -1,7 +1,7 @@
 const { APP_NAME_EN, APP_NAME_AR, SUPPORT_EMAIL } = require("./server");
 
 module.exports.auth = {
-  user: "thedev.samer@gmail.com",
+  user: "fast.go6969@gmail.com",
   password: process.env["EMAIL_PRIVATE_KEY"],
   emailURL: "#",
   siteDomains: {

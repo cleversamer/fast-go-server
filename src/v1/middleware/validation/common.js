@@ -66,6 +66,22 @@ module.exports.checkEmail = check("email")
   .bail()
   .withMessage(errors.auth.invalidEmail);
 
+module.exports.checkFirstName = check("firstName")
+  .trim()
+  .isLength({
+    min: userValidation.firstName.minLength,
+    max: userValidation.firstName.maxLength,
+  })
+  .withMessage(errors.auth.invalidFirstName);
+
+module.exports.checkLastName = check("lastName")
+  .trim()
+  .isLength({
+    min: userValidation.lastName.minLength,
+    max: userValidation.lastName.maxLength,
+  })
+  .withMessage(errors.auth.invalidLastName);
+
 module.exports.checkReferralCode = check("referralCode")
   .isLength({
     min: userValidation.referralCode.exactLength,

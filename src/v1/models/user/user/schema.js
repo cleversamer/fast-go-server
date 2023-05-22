@@ -179,6 +179,16 @@ module.exports.mongodb = new Schema(
     },
     // The email, phone verification codes
     verification: {
+      join: {
+        code: {
+          type: String,
+          default: "",
+        },
+        expiryDate: {
+          type: Date,
+          default: "",
+        },
+      },
       email: {
         code: {
           type: String,

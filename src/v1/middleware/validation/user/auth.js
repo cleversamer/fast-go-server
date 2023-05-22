@@ -2,11 +2,13 @@ const commonMiddleware = require("../common");
 
 module.exports.validateJoinWithEmailAndPhone = [
   commonMiddleware.conditionalCheck("lang", commonMiddleware.checkLanguage),
-  commonMiddleware.checkEmailOrPhone,
-  commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
-  ),
+  commonMiddleware.checkEmail,
+  commonMiddleware.checkPhoneICC,
+  commonMiddleware.checkPhoneNSN,
+  commonMiddleware.checkFirstName,
+  commonMiddleware.checkLastName,
+  commonMiddleware.checkRegisterRole,
+  commonMiddleware.checkDeviceToken,
   commonMiddleware.next,
   commonMiddleware.limitJoin,
 ];

@@ -2,6 +2,8 @@ const {
   deviceToken,
   email,
   verificationCode,
+  firstName,
+  lastName,
 } = require("../../../config/models/user/user");
 
 module.exports = Object.freeze({
@@ -80,5 +82,13 @@ module.exports = Object.freeze({
   googleAuthError: {
     en: "We're unable to access your Google account information",
     ar: "لم نتمكن من الوصول إلى معلومات حسابك في جوجل",
+  },
+  invalidFirstName: {
+    en: `First name should be ${firstName.minLength.toLocaleString()}-${firstName.maxLength.toLocaleString()} letters`,
+    ar: `الإسم الأول يجب أن يكون بين ${firstName.minLength.toLocaleString()}-${firstName.maxLength.toLocaleString()} حرفًا`,
+  },
+  invalidLastName: {
+    en: `Last name should be ${lastName.minLength.toLocaleString()}-${lastName.maxLength.toLocaleString()} letters`,
+    ar: `الإسم الأخير يجب أن يكون بين ${lastName.minLength.toLocaleString()}-${lastName.maxLength.toLocaleString()} حرفًا`,
   },
 });
