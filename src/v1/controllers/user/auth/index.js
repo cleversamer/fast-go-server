@@ -1,5 +1,5 @@
-const loginControllers = require("./login");
+const joinControllers = require("./join");
 
 module.exports = {
-  ...loginControllers,
+  ...joinControllers,
 };

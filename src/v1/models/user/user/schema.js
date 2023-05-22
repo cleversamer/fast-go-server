@@ -10,7 +10,6 @@ module.exports.client = [
   "phone",
   "role",
   "verified",
-  "links",
   "display",
   "notifications",
   "balance",
@@ -34,7 +33,18 @@ module.exports.mongodb = new Schema(
       default: "",
     },
     // User's full name
-    name: {
+    firstName: {
+      type: String,
+      trim: true,
+      required: true,
+      // !!DO NOT provide `minlength` and `maxlength` to this field!
+      //
+      // Because when a user registers with a Google account or
+      // another account, their name will be taken from that account
+      // and it may not apply to the provided limitations, and this
+      // will end up with a failed registration proccess.
+    },
+    lastName: {
       type: String,
       trim: true,
       required: true,
@@ -84,62 +94,11 @@ module.exports.mongodb = new Schema(
         maxlength: countriesData.maxNSN,
       },
     },
-    // The hashed password of the user
-    password: {
-      type: String,
-      trim: true,
-      default: "",
-    },
     // The role of the user
     role: {
       type: String,
       enum: config.roles,
       default: config.roles[0],
-    },
-    // User's links (Like social media, website, ...etc)
-    links: {
-      instagram: {
-        type: String,
-        trim: true,
-        maxlength: config.link.maxLength,
-        default: "",
-      },
-      twitter: {
-        type: String,
-        trim: true,
-        maxlength: config.link.maxLength,
-        default: "",
-      },
-      linkedin: {
-        type: String,
-        trim: true,
-        maxlength: config.link.maxLength,
-        default: "",
-      },
-      facebook: {
-        type: String,
-        trim: true,
-        maxlength: config.link.maxLength,
-        default: "",
-      },
-      youtube: {
-        type: String,
-        trim: true,
-        maxlength: config.link.maxLength,
-        default: "",
-      },
-      website: {
-        type: String,
-        trim: true,
-        maxlength: config.link.maxLength,
-        default: "",
-      },
-      other: {
-        type: String,
-        trim: true,
-        maxlength: config.link.maxLength,
-        default: "",
-      },
     },
     // User's display settings
     display: {
@@ -150,14 +109,6 @@ module.exports.mongodb = new Schema(
         trim: true,
         enum: config.languages,
         default: config.languages[0],
-      },
-      // User's display mode
-      mode: {
-        type: String,
-        required: true,
-        trim: true,
-        enum: config.displayModes,
-        default: config.displayModes[0],
       },
     },
     // The email and phone verification status of the user
@@ -226,7 +177,7 @@ module.exports.mongodb = new Schema(
       type: Number,
       default: 0,
     },
-    // The email, phone, and password verification codes
+    // The email, phone verification codes
     verification: {
       email: {
         code: {
@@ -239,16 +190,6 @@ module.exports.mongodb = new Schema(
         },
       },
       phone: {
-        code: {
-          type: String,
-          default: "",
-        },
-        expiryDate: {
-          type: Date,
-          default: "",
-        },
-      },
-      password: {
         code: {
           type: String,
           default: "",

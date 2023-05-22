@@ -1,5 +1,5 @@
-const loginServices = require("./login");
+const joinServices = require("./join");
 
 module.exports = {
-  ...loginServices,
+  ...joinServices,
 };

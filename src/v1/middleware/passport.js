@@ -11,14 +11,9 @@ const jwtVerify = async (payload, done) => {
   try {
     const user = await User.findById(payload.sub);
 
-    const tokenPassword = payload.password.substring(0, user.password.length);
-    const tokenPasswordSalt = payload.password.substring(user.password.length);
-
     const unauthorized =
       !user ||
       user.isDeleted() ||
-      tokenPassword !== user.password ||
-      tokenPasswordSalt !== server.PASSWORD_SALT ||
       payload.email !== user.getEmail() ||
       payload.phone !== user.getPhone();
 

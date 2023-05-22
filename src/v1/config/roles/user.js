@@ -12,16 +12,10 @@ module.exports = Object.freeze({
     "read:own": ["*"],
     "update:own": ["*"],
   },
-  password: {
-    "update:own": ["*"],
-  },
   notification: {
     "read:own": ["*"],
     "update:own": ["*"],
     "delete:own": ["*"],
-  },
-  loginActivity: {
-    "read:own": ["*"],
   },
   review: {
     "create:own": ["*"],

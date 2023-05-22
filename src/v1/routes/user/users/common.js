@@ -38,20 +38,6 @@ module.exports = (router) => {
     usersController.switchLanguage
   );
 
-  router.patch(
-    "/profile/link/:linkKey/update",
-    userValidator.validateUpdateLink,
-    auth("updateOwn", "user"),
-    usersController.updateLink
-  );
-
-  router.delete(
-    "/profile/link/:linkKey/remove",
-    userValidator.validateRemoveLink,
-    auth("updateOwn", "user"),
-    usersController.removeLink
-  );
-
   //////////////////// NOTIFICATIONS ////////////////////
   router.get(
     "/notifications/see",
@@ -156,24 +142,5 @@ module.exports = (router) => {
     "/phone/used",
     userValidator.validatePhone,
     usersController.checkIfPhoneUsed
-  );
-
-  //////////////////// PASSWORD ////////////////////
-  router
-    .route("/password/forgot")
-    .get(
-      userValidator.validateSendForgotPasswordCode,
-      usersController.sendForgotPasswordCode
-    )
-    .post(
-      userValidator.validateHanfleForgotPassword,
-      usersController.handleForgotPassword
-    );
-
-  router.patch(
-    "/password/change",
-    userValidator.validateChangePassword,
-    auth("updateOwn", "password"),
-    usersController.changePassword
   );
 };

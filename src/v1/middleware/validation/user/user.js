@@ -36,39 +36,11 @@ module.exports.validateVerifyEmailByLink = [
   commonMiddleware.next,
 ];
 
-module.exports.validateHanfleForgotPassword = [
-  commonMiddleware.checkEmailOrPhone,
-  commonMiddleware.checkNewPassword,
-  commonMiddleware.checkCode,
-  commonMiddleware.next,
-];
-
-module.exports.validateSendForgotPasswordCode = [
-  commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkEmailOrPhone,
-  commonMiddleware.conditionalCheck("sendTo", commonMiddleware.checkSendTo),
-  commonMiddleware.next,
-  commonMiddleware.limitSendForgotPasswordCode,
-];
-
 module.exports.validateUpdatePhone = [
   commonMiddleware.checkPhoneICC,
   commonMiddleware.checkPhoneNSN,
   commonMiddleware.next,
   commonMiddleware.limitUpdatePhone,
-];
-
-module.exports.validateUpdateLink = [
-  commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkLinkKey,
-  commonMiddleware.checkLinkValue,
-  commonMiddleware.next,
-];
-
-module.exports.validateRemoveLink = [
-  commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkLinkKey,
-  commonMiddleware.next,
 ];
 
 module.exports.validateRequestAccountDeletion = [
@@ -105,15 +77,6 @@ module.exports.validateSendNotification = [
   commonMiddleware.checkNotificationTitleAR,
   commonMiddleware.checkNotificationBodyEN,
   commonMiddleware.checkNotificationBodyAR,
-  commonMiddleware.next,
-];
-
-module.exports.validateChangePassword = [
-  commonMiddleware.conditionalCheck(
-    "oldPassword",
-    commonMiddleware.checkOldPassword
-  ),
-  commonMiddleware.checkNewPassword,
   commonMiddleware.next,
 ];
 

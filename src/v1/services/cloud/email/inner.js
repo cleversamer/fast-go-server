@@ -110,33 +110,6 @@ module.exports.sendChangeEmail = async (
   }
 };
 
-module.exports.sendForgotPasswordEmail = async (
-  lang,
-  email,
-  passwordCode,
-  name
-) => {
-  try {
-    if (!["ar", "en"].includes(lang)) {
-      lang = "en";
-    }
-
-    const {
-      subject,
-      emailBody: { title },
-    } = mail.types.forgotPassword;
-
-    const html = title[lang](name, passwordCode);
-
-    const message = mail.getMessage(lang, email, html, subject[lang]);
-
-    await transporter.sendMail(message);
-    return true;
-  } catch (err) {
-    throw err;
-  }
-};
-
 module.exports.sendAccountDeletionCodeEmail = async (
   lang,
   email,
@@ -176,50 +149,6 @@ module.exports.sendAccountDeletedEmail = async (lang, email, name) => {
     } = mail.types.accountDeleted;
 
     const html = title[lang](name);
-
-    const message = mail.getMessage(lang, email, html, subject[lang]);
-
-    await transporter.sendMail(message);
-    return true;
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.sendPasswordChangedEmail = async (lang, email, name) => {
-  try {
-    if (!["ar", "en"].includes(lang)) {
-      lang = "en";
-    }
-
-    const {
-      subject,
-      emailBody: { title },
-    } = mail.types.changePassword;
-
-    const html = title[lang](name);
-
-    const message = mail.getMessage(lang, email, html, subject[lang]);
-
-    await transporter.sendMail(message);
-    return true;
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.sendLoginActivityEmail = async (lang, email, name, os) => {
-  try {
-    if (!["ar", "en"].includes(lang)) {
-      lang = "en";
-    }
-
-    const {
-      subject,
-      emailBody: { title },
-    } = mail.types.loginActivity;
-
-    const html = title[lang](name, os);
 
     const message = mail.getMessage(lang, email, html, subject[lang]);
 

@@ -53,10 +53,6 @@ module.exports = Object.freeze({
     en: "You exceeded the maximum number of tries",
     ar: "لقد تجاوزت الحد الأقصى لعدد المحاولات",
   },
-  exceededForgotPasswordTries: {
-    en: "You exceeded the maximum number of tries",
-    ar: "لقد تجاوزت الحد الأقصى لعدد المحاولات",
-  },
   exceededAccountDeletionTries: {
     en: "You exceeded the maximum number of tries",
     ar: "لقد تجاوزت الحد الأقصى لعدد المحاولات",

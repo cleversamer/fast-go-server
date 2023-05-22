@@ -2,7 +2,6 @@ const {
   authService,
   emailService,
   usersService,
-  loginActivitiesService,
 } = require("../../../services");
 const { user: userNotifications } = require("../../../config/notifications");
 const httpStatus = require("http-status");
@@ -11,12 +10,24 @@ const _ = require("lodash");
 
 module.exports.joinWithEmailAndPhone = async (req, res, next) => {
   try {
-    const { lang, emailOrPhone, password, deviceToken, socketId } = req.body;
+    const {
+      lang,
+      email,
+      phoneICC,
+      phoneNSN,
+      firstName,
+      lastName,
+      deviceToken,
+      socketId,
+    } = req.body;
 
     // Find user with provided credentials
     const { user, isDeleted } = await authService.joinWithEmailAndPhone(
-      emailOrPhone,
-      password,
+      email,
+      phoneICC,
+      phoneNSN,
+      firstName,
+      lastName,
       deviceToken,
       lang
     );
@@ -33,9 +44,6 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
     // Send response back to the client
     res.status(httpStatus.OK).json(response);
 
-    // Parse client data
-    const { osName } = usersService.parseUserAgent(req);
-
     if (isDeleted) {
       // Send welcome back email to user
       await emailService.sendWelcomeBackEmail(
@@ -43,24 +51,7 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
         user.getEmail(),
         user.getName()
       );
-    } else {
-      // Send login activity email to user
-      await emailService.sendLoginActivityEmail(
-        user.getLanguage(),
-        user.getEmail(),
-        user.getName(),
-        osName
-      );
-
-      // Send notification to user
-      await usersService.sendNotification(
-        [user._id],
-        userNotifications.newLoginActivity(user.getLastLogin())
-      );
     }
-
-    // Add login activity to user
-    await loginActivitiesService.createLoginActivity(req, user);
   } catch (err) {
     next(err);
   }
@@ -96,24 +87,7 @@ module.exports.joinWithGoogle = async (req, res, next) => {
         user.getEmail(),
         user.getName()
       );
-    } else {
-      // Send login activity email to user
-      await emailService.sendLoginActivityEmail(
-        user.getLanguage(),
-        user.getEmail(),
-        user.getName(),
-        osName
-      );
-
-      // Send notification to user
-      await usersService.sendNotification(
-        [user._id],
-        userNotifications.newLoginActivity(user.getLastLogin())
-      );
     }
-
-    // Add login activity to user
-    await loginActivitiesService.createLoginActivity(req, user);
   } catch (err) {
     next(err);
   }

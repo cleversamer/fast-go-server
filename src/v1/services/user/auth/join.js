@@ -6,36 +6,22 @@ const googleService = require("../google");
 
 module.exports.joinWithEmailAndPhone = async (
   email,
-  password,
+  phoneICC,
+  phoneNSN,
+  firstName,
+  lastName,
   deviceToken,
   lang
 ) => {
   try {
+    // Construct full phone
+    const fullPhone = `${phoneICC}${phoneNSN}`;
+
     // Check if user exists
-    const user = await User.findOne({ email });
-    if (!user) {
-      const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.auth.incorrectCredentials;
-      throw new ApiError(statusCode, message);
-    }
+    const user = await User.findOne({ email, "phone.full": fullPhone });
 
     // Check if user is deleted
     const isDeleted = user.isDeleted();
-
-    // Check if user has a password
-    // HINT: this happens when a user registers with Google
-    if (!user.hasPassword()) {
-      const statusCode = httpStatus.UNAUTHORIZED;
-      const message = errors.auth.hasNoPassword;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Decoding user's password and comparing it with the password argument
-    if (!(await user.comparePassword(password))) {
-      const statusCode = httpStatus.UNAUTHORIZED;
-      const message = errors.auth.incorrectCredentials;
-      throw new ApiError(statusCode, message);
-    }
 
     // Check if user was deleted and restore it
     if (user.isDeleted()) {

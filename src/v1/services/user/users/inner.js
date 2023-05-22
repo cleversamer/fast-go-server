@@ -1,35 +1,8 @@
 const { User } = require("../../../models/user/user");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const userAgentParser = require("ua-parser-js");
-const requestIp = require("request-ip");
 const { user: userConfig } = require("../../../config/models");
 const { getIO } = require("../../../setup/socket");
-const httpStatus = require("http-status");
-
-module.exports.parseUserAgent = (request) => {
-  try {
-    const userAgent = userAgentParser(request.headers["user-agent"]);
-
-    const { os, browser, cpu, device, engine, ua } = userAgent;
-    const osName =
-      os.name && os.version ? `${os.name} ${os.version}` : os.name || "";
-
-    const ip = requestIp.getClientIp(request);
-
-    return {
-      osName,
-      ip,
-      browser,
-      cpu,
-      device,
-      engine,
-      ua,
-    };
-  } catch (err) {
-    throw err;
-  }
-};
 
 module.exports.findAdmins = async () => {
   try {

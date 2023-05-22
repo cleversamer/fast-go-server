@@ -3,13 +3,12 @@ const commonMiddleware = require("../common");
 module.exports.validateJoinWithEmailAndPhone = [
   commonMiddleware.conditionalCheck("lang", commonMiddleware.checkLanguage),
   commonMiddleware.checkEmailOrPhone,
-  commonMiddleware.checkPassword,
   commonMiddleware.conditionalCheck(
     "deviceToken",
     commonMiddleware.checkDeviceToken
   ),
   commonMiddleware.next,
-  commonMiddleware.limitLogin,
+  commonMiddleware.limitJoin,
 ];
 
 module.exports.validateJoinWithGoogle = [
@@ -19,5 +18,5 @@ module.exports.validateJoinWithGoogle = [
     commonMiddleware.checkDeviceToken
   ),
   commonMiddleware.next,
-  commonMiddleware.limitLogin,
+  commonMiddleware.limitJoin,
 ];

@@ -48,5 +48,3 @@ module.exports.MAX_REQUESTS = {
   PER_MILLISECONDS: 1 * 60 * 1000, //  => 1 minute
   NUMBER: 60 * 256, // allowed number of requests
 };
-
-module.exports.PASSWORD_SALT = process.env["PASSWORD_SALT"];

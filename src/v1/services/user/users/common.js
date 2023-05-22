@@ -197,98 +197,6 @@ module.exports.verifyEmailByLink = async (token, code) => {
   }
 };
 
-module.exports.sendForgotPasswordCode = async (emailOrPhone) => {
-  try {
-    // Check if user exists
-    const user = await adminServices.findUserByEmailOrPhone(emailOrPhone);
-    if (!user) {
-      const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.auth.emailOrPhoneNotUsed;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Update password reset code
-    user.updateCode("password");
-
-    // Save user to the DB
-    await user.save();
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.resetPasswordWithCode = async (
-  emailOrPhone,
-  code,
-  newPassword
-) => {
-  try {
-    // Check if user exists
-    const user = await adminServices.findUserByEmailOrPhone(emailOrPhone);
-    if (!user) {
-      const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.auth.emailOrPhoneNotUsed;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Check if code is correct
-    const isCorrectCode = user.isMatchingCode("password", code);
-    if (!isCorrectCode) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.auth.incorrectCode;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Check if code is expired
-    const isValidCode = user.isValidCode("password");
-    if (!isValidCode) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.auth.expiredCode;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Update password
-    await user.updatePassword(newPassword);
-
-    // Save user to the DB
-    await user.save();
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.changePassword = async (user, oldPassword, newPassword) => {
-  try {
-    // Decoding user's password and comparing it with the old password
-    if (!(await user.comparePassword(oldPassword))) {
-      const statusCode = httpStatus.UNAUTHORIZED;
-      const message = errors.auth.incorrectOldPassword;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Decoding user's password and comparing it with the new password
-    if (await user.comparePassword(newPassword)) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.auth.oldPasswordMatchNew;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Update password
-    await user.updatePassword(newPassword);
-
-    // Save user
-    await user.save();
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
 module.exports.updateProfile = async (
   user,
   name,
@@ -408,34 +316,6 @@ module.exports.switchLanguage = async (user) => {
   try {
     // Switch user's language
     user.switchLanguage();
-
-    // Save user to the DB
-    await user.save();
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.updateLink = async (user, linkKey, linkValue) => {
-  try {
-    // Update user's link
-    user.updateLink(linkKey, linkValue);
-
-    // Save user to the DB
-    await user.save();
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.removeLink = async (user, linkKey) => {
-  try {
-    // Update user's link
-    user.removeLink(linkKey);
 
     // Save user to the DB
     await user.save();

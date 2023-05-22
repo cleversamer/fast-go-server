@@ -10,6 +10,7 @@ module.exports = {
       "",
       "serverErrors"
     ),
+
   newServerErrorJustHappened: (serverErrorId) =>
     new Notificatin(
       "An error has now occurred on the server",

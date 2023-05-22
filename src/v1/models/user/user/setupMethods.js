@@ -1,6 +1,4 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const { server } = require("../../../config/system");
 const { user: config } = require("../../../config/models");
 
 const verification = {
@@ -9,10 +7,6 @@ const verification = {
     codeLength: config.verificationCode.exactLength,
   },
   phone: {
-    expiryInMins: 10,
-    codeLength: config.verificationCode.exactLength,
-  },
-  password: {
     expiryInMins: 10,
     codeLength: config.verificationCode.exactLength,
   },
@@ -46,16 +40,36 @@ module.exports = (mongodbSchema) => {
   };
 
   //////////////////////// NAME ////////////////////////
-  mongodbSchema.methods.updateName = function (name) {
-    this.name = name;
+  mongodbSchema.methods.updateFirstName = function (firstName) {
+    this.firstName = firstName;
   };
 
-  mongodbSchema.methods.getName = function () {
-    return this.name;
+  mongodbSchema.methods.updateLastName = function (lastName) {
+    this.lastName = lastName;
   };
 
-  mongodbSchema.methods.compareName = function (name) {
-    return this.name === name;
+  mongodbSchema.methods.getFirstName = function () {
+    return this.firstName;
+  };
+
+  mongodbSchema.methods.getLastName = function () {
+    return this.lastName;
+  };
+
+  mongodbSchema.methods.getFullName = function () {
+    return `${this.firstName} ${this.lastName}`;
+  };
+
+  mongodbSchema.methods.compareFirstName = function (firstName) {
+    return this.firstName === firstName;
+  };
+
+  mongodbSchema.methods.compareLastName = function (lastName) {
+    return this.lastName === lastName;
+  };
+
+  mongodbSchema.methods.compareFullName = function (name) {
+    return `${this.firstName} ${this.lastName}` === name;
   };
 
   //////////////////////// EMAIL ////////////////////////
@@ -143,11 +157,6 @@ module.exports = (mongodbSchema) => {
     return this.display.language;
   };
 
-  //////////////////////// DISPLAY MODE ////////////////////////
-  mongodbSchema.methods.getDisplayMode = function () {
-    return this.display.mode;
-  };
-
   //////////////////////// NOTIFICATIONS ////////////////////////
   mongodbSchema.methods.addNotification = function (notification) {
     const { maxNotificationsCount } = config;
@@ -159,7 +168,7 @@ module.exports = (mongodbSchema) => {
     );
 
     // If the max count reached then we remove the oldest one.
-    if (this.notifications.list.length === maxNotificationsCount) {
+    while (this.notifications.length >= maxNotificationsCount) {
       this.notifications.list.pop();
     }
 
@@ -233,19 +242,6 @@ module.exports = (mongodbSchema) => {
     this.notifications.active = false;
   };
 
-  //////////////////////// LINKS ////////////////////////
-  mongodbSchema.methods.updateLink = function (key, value) {
-    this.links[key] = value;
-  };
-
-  mongodbSchema.methods.removeLink = function (key) {
-    this.links[key] = "";
-  };
-
-  mongodbSchema.methods.getLink = function (key) {
-    return this.links[key];
-  };
-
   //////////////////////// REFERRAL CODE ////////////////////////
   mongodbSchema.methods.setReferralCode = function (referralCode) {
     this.referral.code = referralCode;
@@ -290,7 +286,6 @@ module.exports = (mongodbSchema) => {
       sub: this._id.toHexString(),
       email: this.email,
       phone: this.phone.full,
-      password: this.password + server.PASSWORD_SALT,
     };
 
     return jwt.sign(body, process.env["JWT_PRIVATE_KEY"]);
@@ -381,29 +376,6 @@ module.exports = (mongodbSchema) => {
     };
   };
 
-  //////////////////////// PASSWORD ////////////////////////
-  mongodbSchema.methods.comparePassword = async function (candidate) {
-    // Check if user doesn't have a password
-    // and the candidate password argument
-    // is also an empty string
-    if (!this.password && !candidate) {
-      return true;
-    }
-
-    // Otherwise, compare candidate password with the current password
-    return await bcrypt.compare(candidate, this.password);
-  };
-
-  mongodbSchema.methods.updatePassword = async function (newPassword) {
-    const salt = await bcrypt.genSalt(11);
-    const hashed = await bcrypt.hash(newPassword, salt);
-    this.password = hashed;
-  };
-
-  mongodbSchema.methods.hasPassword = function () {
-    return !!this.password;
-  };
-
   //////////////////////// ACCOUNT STATUS ////////////////////////
   mongodbSchema.methods.markAsDeleted = function () {
     this.deleted = true;
@@ -427,6 +399,6 @@ module.exports = (mongodbSchema) => {
   };
 
   mongodbSchema.methods.getNoOfRequests = function () {
-    this.noOfRequests = this.noOfRequests + 1;
+    return this.noOfRequests;
   };
 };

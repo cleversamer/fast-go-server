@@ -66,41 +66,12 @@ module.exports.checkEmail = check("email")
   .bail()
   .withMessage(errors.auth.invalidEmail);
 
-module.exports.checkAuthType = check("authType")
-  .trim()
-  .isIn(userValidation.authTypes)
-  .withMessage(errors.user.invalidAuthType);
-
 module.exports.checkReferralCode = check("referralCode")
   .isLength({
     min: userValidation.referralCode.exactLength,
     max: userValidation.referralCode.exactLength,
   })
   .withMessage(errors.user.invalidReferralCode);
-
-module.exports.checkPassword = check("password")
-  .trim()
-  .isLength({
-    min: userValidation.password.minLength,
-    max: userValidation.password.maxLength,
-  })
-  .withMessage(errors.auth.invalidPassword);
-
-module.exports.checkOldPassword = check("oldPassword")
-  .trim()
-  .isLength({
-    min: userValidation.password.minLength,
-    max: userValidation.password.maxLength,
-  })
-  .withMessage(errors.auth.invalidPassword);
-
-module.exports.checkNewPassword = check("newPassword")
-  .trim()
-  .isLength({
-    min: userValidation.password.minLength,
-    max: userValidation.password.maxLength,
-  })
-  .withMessage(errors.auth.invalidPassword);
 
 module.exports.checkCode = check("code")
   .isLength({
@@ -115,14 +86,6 @@ module.exports.checkLanguage = check("lang")
   .withMessage(errors.user.noLanguage)
   .isIn(server.SUPPORTED_LANGUAGES)
   .withMessage(errors.user.unsupportedLanguage);
-
-module.exports.checkName = check("name")
-  .trim()
-  .isLength({
-    min: userValidation.name.minLength,
-    max: userValidation.name.maxLength,
-  })
-  .withMessage(errors.auth.invalidName);
 
 module.exports.checkRole = (exceptAdmin = false) =>
   exceptAdmin
@@ -375,17 +338,6 @@ module.exports.checkErrorId = check("errorId")
   .isMongoId()
   .withMessage(errors.serverError.invalidId);
 
-module.exports.checkLinkKey = check("linkKey")
-  .isIn(userValidation.supportedLinks)
-  .withMessage(errors.user.invalidLinkKey);
-
-module.exports.checkLinkValue = check("link")
-  .isLength({
-    min: userValidation.link.minLength,
-    max: userValidation.link.maxLength,
-  })
-  .withMessage(errors.user.invalidLinkValue);
-
 module.exports.limitSendEmailVerificationCode = rateLimit({
   // Limit duration in milliseconds
   windowMs: 1000 * 60 * 30, // 30 minutes
@@ -407,18 +359,6 @@ module.exports.limitSendPhoneVerificationCode = rateLimit({
     status: "error",
     statusCode: httpStatus.TOO_MANY_REQUESTS,
     message: errors.system.exceededVerifyPhoneTries,
-  },
-});
-
-module.exports.limitSendForgotPasswordCode = rateLimit({
-  // Limit duration in milliseconds
-  windowMs: 1000 * 60 * 30, // 30 minutes
-  // Number of requests allowed for the above duration
-  max: 2, // 2 requests allowed per 30 minutes
-  message: {
-    status: "error",
-    statusCode: httpStatus.TOO_MANY_REQUESTS,
-    message: errors.system.exceededForgotPasswordTries,
   },
 });
 
@@ -458,7 +398,7 @@ module.exports.limitUpdatePhone = rateLimit({
   },
 });
 
-module.exports.limitLogin = rateLimit({
+module.exports.limitJoin = rateLimit({
   // Limit duration in milliseconds
   windowMs: 1000 * 60 * 60 * 24, // 1 day
   // Number of requests allowed for the above duration
@@ -467,17 +407,5 @@ module.exports.limitLogin = rateLimit({
     status: "error",
     statusCode: httpStatus.TOO_MANY_REQUESTS,
     message: errors.system.exceededLoginAttempts,
-  },
-});
-
-module.exports.limitRegister = rateLimit({
-  // Limit duration in milliseconds
-  windowMs: 1000 * 60 * 60 * 24, // 1 day
-  // Number of requests allowed for the above duration
-  max: 5, // 5 requests a day allowed
-  message: {
-    status: "error",
-    statusCode: httpStatus.TOO_MANY_REQUESTS,
-    message: errors.system.exceededRegisterAttempts,
   },
 });

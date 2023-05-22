@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const setupLoginRoutes = require("./login");
+const setupJoinRoutes = require("./join");
 
 const router = Router();
 
-setupLoginRoutes(router);
+setupJoinRoutes(router);
 
 module.exports = router;
