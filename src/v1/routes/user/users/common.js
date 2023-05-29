@@ -26,12 +26,6 @@ module.exports = (router) => {
     usersController.updateAvatar
   );
 
-  router.delete(
-    "/profile/avatar/delete",
-    auth("updateOwn", "user"),
-    usersController.deleteAvatar
-  );
-
   router.patch(
     "/profile/language/switch",
     auth("updateOwn", "user"),
@@ -71,13 +65,6 @@ module.exports = (router) => {
     usersController.requestAccountDeletion
   );
 
-  router.post(
-    "/account/deletion/code/check",
-    userValidator.validateCode,
-    auth("readOwn", "user", true),
-    usersController.checkCode("deletion")
-  );
-
   router.get(
     "/account/deletion/confirm",
     userValidator.validateConfirmAccountDeletion,
@@ -98,19 +85,6 @@ module.exports = (router) => {
       usersController.verifyEmailOrPhone("email")
     );
 
-  router.post(
-    "/verification/email/code/check",
-    userValidator.validateCode,
-    auth("readOwn", "emailVerificationCode", true),
-    usersController.checkCode("email")
-  );
-
-  router.post(
-    "/email/used",
-    userValidator.validateEmail,
-    usersController.checkIfEmailUsed
-  );
-
   router.get(
     "/email/verify/fast",
     userValidator.validateVerifyEmailByLink,
@@ -130,17 +104,4 @@ module.exports = (router) => {
       auth("updateOwn", "phoneVerificationCode", true),
       usersController.verifyEmailOrPhone("phone")
     );
-
-  router.post(
-    "/verification/phone/code/check",
-    userValidator.validateCode,
-    auth("readOwn", "phoneVerificationCode", true),
-    usersController.checkCode("phone")
-  );
-
-  router.post(
-    "/phone/used",
-    userValidator.validatePhone,
-    usersController.checkIfPhoneUsed
-  );
 };

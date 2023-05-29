@@ -81,6 +81,10 @@ module.exports = Object.freeze({
     en: "Error sending email",
     ar: "حصل خطأ عند إرسال البريد الإلكتروني",
   },
+  smsError: {
+    en: "Error sending SMS message",
+    ar: "حصل خطأ عند إرسال رسالة SMS",
+  },
   pageNumberRequired: {
     en: "Page number is required",
     ar: "رقم الصفحة مطلوب",

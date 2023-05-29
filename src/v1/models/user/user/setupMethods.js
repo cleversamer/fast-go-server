@@ -337,45 +337,6 @@ module.exports = (mongodbSchema) => {
     return this.verification[key].code;
   };
 
-  mongodbSchema.methods.getCodeRemainingTime = function (key) {
-    const { expiryDate } = this.verification[key];
-
-    // Calculate difference in milliseconds between now
-    // and expiry date
-    const diffInMs = expiryDate - new Date();
-
-    if (diffInMs <= 0) {
-      return {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-      };
-    }
-
-    // Calculate remaining seconds with fractions
-    const diffInSec = Math.floor(diffInMs / 1000);
-
-    // Calculate remaining days
-    const days = Math.floor(diffInSec / (3600 * 24));
-
-    // Calculate remaining hours
-    const hours = Math.floor((diffInSec % (3600 * 24)) / 3600);
-
-    // Calculate remaining minutes
-    const minutes = Math.floor((diffInSec % 3600) / 60);
-
-    // Calculate remaining seconds without fractions
-    const seconds = Math.floor(diffInSec % 60);
-
-    return {
-      days,
-      hours,
-      minutes,
-      seconds,
-    };
-  };
-
   //////////////////////// ACCOUNT STATUS ////////////////////////
   mongodbSchema.methods.markAsDeleted = function () {
     this.deleted = true;

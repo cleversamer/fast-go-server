@@ -106,50 +106,6 @@ module.exports.verifyEmailOrPhone = async (key, user, code) => {
   }
 };
 
-module.exports.checkCode = (key, user, code) => {
-  try {
-    // Check if code is valid
-    const isValid = user.isValidCode(key);
-
-    // Check if code is correct
-    const isCorrect = user.isMatchingCode(key, code);
-
-    // Calculate remaining time
-    const { days, hours, minutes, seconds } = user.getCodeRemainingTime(key);
-
-    return {
-      isValid,
-      isCorrect,
-      remainingDays: days,
-      remainingHours: hours,
-      remainingMinutes: minutes,
-      remainingSeconds: seconds,
-    };
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.checkIfEmailUsed = async (email) => {
-  try {
-    // Find user with the given email
-    const user = await User.findOne({ email });
-    return !!user;
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.checkIfPhoneUsed = async (fullPhone) => {
-  try {
-    // Find user with the given email
-    const user = await User.findOne({ "phone.full": fullPhone });
-    return !!user;
-  } catch (err) {
-    throw err;
-  }
-};
-
 module.exports.verifyEmailByLink = async (token, code) => {
   try {
     const payload = innerServices.validateToken(token);
@@ -275,33 +231,6 @@ module.exports.updateAvatar = async (user, avatar) => {
 
     // Update user's avatar URL
     user.updateAvatarURL(cloudPhotoURL);
-
-    // Save user to the DB
-    await user.save();
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.deleteAvatar = async (user) => {
-  try {
-    // Check if doesn's have an avatar URL
-    if (!user.getAvatarURL()) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.user.noAvatar;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Check if user's avatar URL does not point
-    // to this server or any of app's storage buckets
-    if (!user.hasGoogleAvatar()) {
-      await cloudStorage.deleteFile(user.getAvatarURL());
-    }
-
-    // Set user's avatar to an empty string
-    user.clearAvatarURL();
 
     // Save user to the DB
     await user.save();

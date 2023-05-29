@@ -11,6 +11,7 @@ module.exports.joinWithEmailAndPhone = async (
   firstName,
   lastName,
   role,
+  referralCode,
   deviceToken,
   lang
 ) => {

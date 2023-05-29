@@ -2,6 +2,7 @@ const {
   authService,
   emailService,
   usersService,
+  smsService,
 } = require("../../../services");
 const httpStatus = require("http-status");
 const { clientSchema } = require("../../../models/user/user");
@@ -17,8 +18,10 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
       firstName,
       lastName,
       role,
+      referralCode,
       deviceToken,
       socketId,
+      regToken,
     } = req.body;
 
     // Find user with provided credentials
@@ -29,6 +32,7 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
       firstName,
       lastName,
       role,
+      referralCode,
       deviceToken,
       lang
     );
@@ -42,12 +46,10 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
     // Send response back to the client
     res.status(httpStatus.OK).json(response);
 
-    // Connect user's socket to their own room
-    usersService.joinSocketToUserRoom(socketId, user._id);
-
     if (!user.isPhoneVerified()) {
-      await usersService.resendEmailOrPhoneVerificationCode("phone", user);
-      console.log("Phone verification code has been sent...");
+      const title = "Verify your Fast Go account phone number";
+      const body = `${user.getCode("phone")} is your phone verification code`;
+      await smsService.sendSMS(title, body, regToken);
     }
 
     if (isDeleted) {
@@ -58,6 +60,12 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
         user.getFullName()
       );
     }
+
+    // Connect user's socket to their own room
+    usersService.joinSocketToUserRoom(socketId, user._id);
+
+    // Apply referral code
+    await usersService.applyReferralCode(user, referralCode);
   } catch (err) {
     next(err);
   }

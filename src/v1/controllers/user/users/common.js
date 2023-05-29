@@ -85,23 +85,6 @@ module.exports.updateAvatar = async (req, res, next) => {
   }
 };
 
-module.exports.deleteAvatar = async (req, res, next) => {
-  try {
-    const user = req.user;
-
-    // Asking service to remove user's avatar picture
-    const newUser = await usersService.deleteAvatar(user);
-
-    // Create the response object
-    const response = _.pick(newUser, clientSchema);
-
-    // Send response back to the client
-    res.status(httpStatus.CREATED).json(response);
-  } catch (err) {
-    next(err);
-  }
-};
-
 module.exports.switchLanguage = async (req, res, next) => {
   try {
     const user = req.user;
@@ -327,60 +310,6 @@ module.exports.verifyEmailOrPhone = (key) => async (req, res, next) => {
   }
 };
 
-module.exports.checkCode = (key) => async (req, res, next) => {
-  try {
-    const user = req.user;
-    const { code } = req.body;
-
-    // Asking service to check for user's
-    // verification code status
-    const {
-      isCorrect,
-      isValid,
-      remainingDays,
-      remainingHours,
-      remainingMinutes,
-      remainingSeconds,
-    } = usersService.checkCode(key, user, code);
-
-    // Create the response object
-    const response = {
-      key,
-      isValid,
-      isCorrect,
-      remainingDays,
-      remainingHours,
-      remainingMinutes,
-      remainingSeconds,
-    };
-
-    // Send response back to the client
-    res.status(httpStatus.OK).json(response);
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.checkIfEmailUsed = async (req, res, next) => {
-  try {
-    const { email } = req.body;
-
-    // Check if the given email used
-    const isUsed = await usersService.checkIfEmailUsed(email);
-
-    // Create the response object
-    const response = {
-      email,
-      isUsed,
-    };
-
-    // Send the response back to client
-    res.status(httpStatus.OK).json(response);
-  } catch (err) {
-    next(err);
-  }
-};
-
 module.exports.verifyEmailByLink = async (req, res, next) => {
   try {
     const { token, code } = req.query;
@@ -399,29 +328,6 @@ module.exports.verifyEmailByLink = async (req, res, next) => {
       user.getEmail(),
       user.getName()
     );
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.checkIfPhoneUsed = async (req, res, next) => {
-  try {
-    const { phoneICC, phoneNSN } = req.body;
-
-    // Construct the full phone
-    const fullPhone = `${phoneICC}${phoneNSN}`;
-
-    // Check if the given email used
-    const isUsed = await usersService.checkIfPhoneUsed(fullPhone);
-
-    // Create the response object
-    const response = {
-      phone: fullPhone,
-      isUsed,
-    };
-
-    // Send the response back to client
-    res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
   }

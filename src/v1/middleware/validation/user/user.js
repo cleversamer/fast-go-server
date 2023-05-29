@@ -85,12 +85,6 @@ module.exports.validateCode = [
   commonMiddleware.next,
 ];
 
-module.exports.validateEmail = [
-  commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkEmail,
-  commonMiddleware.next,
-];
-
 module.exports.validatePhone = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkPhoneICC,
