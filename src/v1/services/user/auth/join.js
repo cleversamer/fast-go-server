@@ -3,6 +3,7 @@ const { ApiError } = require("../../../middleware/apiError");
 const httpStatus = require("http-status");
 const errors = require("../../../config/errors");
 const googleService = require("../google");
+const usersService = require("../users");
 
 module.exports.joinWithEmailAndPhone = async (
   email,
@@ -11,7 +12,7 @@ module.exports.joinWithEmailAndPhone = async (
   firstName,
   lastName,
   role,
-  referralCode,
+  gender,
   deviceToken,
   lang
 ) => {
@@ -22,16 +23,28 @@ module.exports.joinWithEmailAndPhone = async (
     const fullPhone = `${phoneICC}${phoneNSN}`;
 
     // Check if user exists
-    const user = await User.findOne({ email, "phone.full": fullPhone });
+    let user = await User.findOne({ "phone.full": fullPhone });
     if (user) {
       isDeleted = user.isDeleted();
-      user.restoreAccount();
+
+      if (isDeleted) {
+        user.restoreAccount();
+      }
     } else {
+      // Generate a referral code for the new user
+      const referralCode = await usersService.genUniqueReferralCode();
+
+      // Create new user
       user = new User({
         firstName,
         lastName,
         email,
         role,
+        gender,
+        referral: {
+          code: referralCode,
+          number: 0,
+        },
         phone: {
           full: fullPhone,
           icc: phoneICC,

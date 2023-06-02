@@ -18,6 +18,7 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
       firstName,
       lastName,
       role,
+      gender,
       referralCode,
       deviceToken,
       socketId,
@@ -32,7 +33,7 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
       firstName,
       lastName,
       role,
-      referralCode,
+      gender,
       deviceToken,
       lang
     );

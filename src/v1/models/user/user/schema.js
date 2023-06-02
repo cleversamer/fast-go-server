@@ -4,16 +4,21 @@ const countriesData = require("../../../data/countries");
 
 module.exports.client = [
   "_id",
+  "authType",
   "avatarURL",
-  "name",
+  "firstName",
+  "lastName",
   "email",
   "phone",
   "role",
-  "verified",
+  "gender",
+  "savedPlaces",
   "display",
+  "verified",
   "notifications",
   "balance",
   "referral",
+  "trips",
   "lastLogin",
 ];
 
@@ -58,12 +63,9 @@ module.exports.mongodb = new Schema(
     // The email of the user
     email: {
       type: String,
-      required: true,
-      unique: true,
       trim: true,
       lowercase: true,
-      minlength: config.email.minLength,
-      maxlength: config.email.maxLength,
+      default: "",
     },
     // The phone of the user
     phone: {
@@ -100,6 +102,38 @@ module.exports.mongodb = new Schema(
       enum: config.roles,
       default: config.roles[0],
     },
+    // User's gender
+    gender: {
+      type: String,
+      enum: config.genders,
+      required: true,
+    },
+    // User's saved places
+    savedPlaces: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        type: {
+          type: String,
+          required: true,
+          enum: config.savedPlaceTypes,
+        },
+        latitude: {
+          type: Number,
+          required: true,
+          min: -90,
+          max: 90,
+        },
+        longitude: {
+          type: Number,
+          required: true,
+          min: -180,
+          max: 180,
+        },
+      },
+    ],
     // User's display settings
     display: {
       // User's display language
@@ -153,6 +187,17 @@ module.exports.mongodb = new Schema(
         unique: true,
         minlength: config.referralCode.exactLength,
         maxlength: config.referralCode.exactLength,
+      },
+    },
+    // User's trips
+    trips: {
+      asPassenger: {
+        type: Number,
+        default: 0,
+      },
+      asDriver: {
+        type: Number,
+        default: 0,
       },
     },
     // The device token of the user (Used for sending notifications to it)

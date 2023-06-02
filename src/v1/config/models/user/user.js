@@ -19,7 +19,17 @@ module.exports = {
   maxNotificationsCount: 30,
   // First value is the default value
   languages: ["en", "ar"],
-  // First value is the default value
+  genders: ["male", "female"],
+  savedPlaceTypes: [
+    "main",
+    "work",
+    "club",
+    "cafe",
+    "park",
+    "family-house",
+    "partners",
+    "other",
+  ],
   notificationTitle: { min: 3, max: 128 },
   notificationBody: { min: 3, max: 265 },
   maxRequestsCountForInactiveUsers: 5,

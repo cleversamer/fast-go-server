@@ -362,4 +362,13 @@ module.exports = (mongodbSchema) => {
   mongodbSchema.methods.getNoOfRequests = function () {
     return this.noOfRequests;
   };
+
+  //////////////////////// USER'S TRIPS ////////////////////////
+  mongodbSchema.methods.addDriverTrip = function () {
+    this.trips.asDriver += 1;
+  };
+
+  mongodbSchema.methods.addPassengerTrip = function () {
+    this.trips.asPassenger += 1;
+  };
 };
