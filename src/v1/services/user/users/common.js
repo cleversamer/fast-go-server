@@ -381,3 +381,82 @@ module.exports.confirmAccountDeletion = async (token, code) => {
     throw err;
   }
 };
+
+module.exports.getMySavedPlaces = async (user) => {
+  try {
+    const savedPlaces = user.getSavedPlaces();
+
+    if (!savedPlaces || !savedPlaces.length) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.user.noSavedPlaces;
+      throw new ApiError(statusCode, message);
+    }
+
+    return savedPlaces;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.savePlace = async (user, title, type, longitude, latitude) => {
+  try {
+    // Add place to user's saved places list
+    user.savePlace(title, type, longitude, latitude);
+
+    // Save user to the DB
+    await user.save();
+
+    return user.getSavedPlaces();
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.updateSavedPlace = async (
+  user,
+  placeId,
+  title,
+  type,
+  longitude,
+  latitude
+) => {
+  try {
+    const { found, updated } = user.updatePlace(
+      placeId,
+      title,
+      type,
+      longitude,
+      latitude
+    );
+
+    if (!found) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.user.placeNotFound;
+      throw new ApiError(statusCode, message);
+    }
+
+    if (!updated) {
+      const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+      const message = errors.user.placeNotUpdated;
+      throw new ApiError(statusCode, message);
+    }
+
+    await user.save();
+
+    return user.getSavedPlaces();
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.deleteSavedPlace = async (user, placeId) => {
+  try {
+    user.deletePlace(placeId);
+
+    await user.save();
+
+    return user.getSavedPlaces();
+  } catch (err) {
+    throw err;
+  }
+};

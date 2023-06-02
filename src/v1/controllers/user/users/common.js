@@ -332,3 +332,77 @@ module.exports.verifyEmailByLink = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.getMySavedPlaces = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    const savedPlaces = await usersService.getMySavedPlaces(user);
+
+    const response = { savedPlaces };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.savePlace = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { title, type, longitude, latitude } = req.body;
+
+    const savedPlaces = await usersService.savePlace(
+      user,
+      title,
+      type,
+      longitude,
+      latitude
+    );
+
+    const response = {
+      savedPlaces,
+    };
+
+    res.status(httpStatus.CREATED).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.updateSavedPlace = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { placeId, title, type, longitude, latitude } = req.body;
+
+    const savedPlaces = await usersService.updateSavedPlace(
+      user,
+      placeId,
+      title,
+      type,
+      longitude,
+      latitude
+    );
+
+    const response = { savedPlaces };
+
+    res.status(httpStatus.CREATED).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deleteSavedPlace = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { placeId } = req.body;
+
+    const savedPlaces = await usersService.deleteSavedPlace(user, placeId);
+
+    const response = { savedPlaces };
+
+    res.status(httpStatus.CREATED).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

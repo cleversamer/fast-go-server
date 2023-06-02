@@ -371,4 +371,55 @@ module.exports = (mongodbSchema) => {
   mongodbSchema.methods.addPassengerTrip = function () {
     this.trips.asPassenger += 1;
   };
+
+  //////////////////////// USER'S SAVED PLACES ////////////////////////
+  mongodbSchema.methods.getSavedPlaces = function () {
+    return this.savedPlaces;
+  };
+
+  mongodbSchema.methods.savePlace = function (
+    title,
+    type,
+    longitude,
+    latitude
+  ) {
+    this.savedPlaces.push({ title, type, longitude, latitude });
+  };
+
+  mongodbSchema.methods.updatePlace = function (
+    placeId,
+    title,
+    type,
+    longitude,
+    latitude
+  ) {
+    let found = false;
+    let updated = false;
+
+    try {
+      const index = this.savedPlaces.findIndex(
+        (place) => place._id.toString() === placeId.toString()
+      );
+
+      found = index >= 0;
+
+      this.savedPlaces[index] = { title, type, longitude, latitude };
+
+      updated = true;
+
+      return { found, updated };
+    } catch (err) {
+      return { found, updated };
+    }
+  };
+
+  mongodbSchema.methods.deletePlace = function (placeId) {
+    const index = this.savedPlaces.findIndex(
+      (place) => place._id.toString() === placeId.toString()
+    );
+
+    if (index >= 0) {
+      this.savedPlaces.splice(index, 1);
+    }
+  };
 };

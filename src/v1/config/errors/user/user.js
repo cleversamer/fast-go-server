@@ -93,4 +93,16 @@ module.exports = Object.freeze({
     en: `Referral code must be ${referralCode.exactLength.toLocaleString()} characters`,
     ar: `رمز الإحالة يجب أن يكون ${referralCode.exactLength.toLocaleString()} حرفًا`,
   },
+  noSavedPlaces: {
+    en: "You don't have saved places yet",
+    ar: "ليس لديك أماكن محفوظة",
+  },
+  placeNotFound: {
+    en: "Your saved place was not found",
+    ar: "لم نتكمن من العثور على عنوانك",
+  },
+  placeNotUpdated: {
+    en: "An error occurred while updating your saved place",
+    ar: "حصل خطأ أثناء تحديث عنوانك",
+  },
 });

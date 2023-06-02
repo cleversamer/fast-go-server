@@ -22,4 +22,10 @@ module.exports = Object.freeze({
     "read:own": ["*"],
     "update:own": ["*"],
   },
+  savedPlace: {
+    "create:own": ["*"],
+    "read:own": ["*"],
+    "update:own": ["*"],
+    "delete:own": ["*"],
+  },
 });

@@ -104,4 +104,29 @@ module.exports = (router) => {
       auth("updateOwn", "phoneVerificationCode", true),
       usersController.verifyEmailOrPhone("phone")
     );
+
+  //////////////////// SAVED PLACES ////////////////////
+  router.get(
+    "/places/my",
+    auth("readOwn", "savedPlace"),
+    usersController.getMySavedPlaces
+  );
+
+  router.post(
+    "/places/add",
+    auth("createOwn", "savedPlace"),
+    usersController.savePlace
+  );
+
+  router.patch(
+    "/places/:placeId/update",
+    auth("updateOwn", "savedPlace"),
+    usersController.updateSavedPlace
+  );
+
+  router.delete(
+    "/places/:placeId/delete",
+    auth("updateOwn", "savedPlace"),
+    usersController.deleteSavedPlace
+  );
 };

@@ -7,4 +7,5 @@ module.exports = Object.freeze({
   notification: allRights,
   review: allRights,
   error: allRights,
+  savedPlace: allRights,
 });
