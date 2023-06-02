@@ -4,9 +4,9 @@ const setupMethods = require("./setupMethods");
 
 setupMethods(schema.mongodb);
 
-const Challenge = model("Challenge", schema.mongodb);
+const Trip = model("Trip", schema.mongodb);
 
 module.exports = {
-  Challenge,
+  Trip,
   clientSchema: schema.client,
 };
