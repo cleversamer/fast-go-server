@@ -4,6 +4,7 @@ module.exports.client = [
   "_id",
   "userId",
   "description",
+  "reward",
   "target",
   "progress",
   "completed",
