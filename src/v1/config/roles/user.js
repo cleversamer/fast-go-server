@@ -28,4 +28,8 @@ module.exports = Object.freeze({
     "update:own": ["*"],
     "delete:own": ["*"],
   },
+  trip: {
+    "read:own": ["*"],
+    "create:own": ["*"],
+  },
 });

@@ -1,16 +1,24 @@
 const { Schema, Types } = require("mongoose");
+const { car: carConfig, trip: tripConfig } = require("../../../config/models");
 
 module.exports.client = [
   "_id",
+  "approved",
   "passengerId",
   "driverId",
-  "distance",
+  "paymentMethod",
+  "carType",
   "from",
   "to",
 ];
 
-module.exports.mongodb = new Schema(
+const schema = new Schema(
   {
+    approved: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     passengerId: {
       type: Types.ObjectId,
       ref: "User",
@@ -21,11 +29,22 @@ module.exports.mongodb = new Schema(
       ref: "User",
       required: true,
     },
-    distance: {
-      type: Number,
+    paymentMethod: {
+      type: String,
       required: true,
+      enum: tripConfig.paymentMethods,
+    },
+    carType: {
+      type: String,
+      required: true,
+      enum: carConfig.carTypes,
     },
     from: {
+      title: {
+        type: String,
+        required: true,
+        trim: true,
+      },
       latitude: {
         type: Number,
         required: true,
@@ -40,6 +59,11 @@ module.exports.mongodb = new Schema(
       },
     },
     to: {
+      title: {
+        type: String,
+        required: true,
+        trim: true,
+      },
       latitude: {
         type: Number,
         required: true,
@@ -62,3 +86,8 @@ module.exports.mongodb = new Schema(
     timestamps: true,
   }
 );
+
+schema.index({ driver: -1 });
+schema.index({ passenger: -1 });
+
+module.exports.mongodb = schema;
