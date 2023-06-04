@@ -373,7 +373,8 @@ module.exports.savePlace = async (req, res, next) => {
 module.exports.updateSavedPlace = async (req, res, next) => {
   try {
     const user = req.user;
-    const { placeId, title, type, longitude, latitude } = req.body;
+    const { placeId } = req.params;
+    const { title, type, longitude, latitude } = req.body;
 
     const savedPlaces = await usersService.updateSavedPlace(
       user,
@@ -395,7 +396,7 @@ module.exports.updateSavedPlace = async (req, res, next) => {
 module.exports.deleteSavedPlace = async (req, res, next) => {
   try {
     const user = req.user;
-    const { placeId } = req.body;
+    const { placeId } = req.params;
 
     const savedPlaces = await usersService.deleteSavedPlace(user, placeId);
 

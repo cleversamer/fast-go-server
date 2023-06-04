@@ -2,6 +2,7 @@ module.exports.authService = require("./user/auth");
 module.exports.usersService = require("./user/users");
 module.exports.googleService = require("./user/google");
 module.exports.tripsService = require("./user/trips");
+module.exports.challengesService = require("./user/challenges");
 
 module.exports.excelService = require("./storage/excel");
 module.exports.localStorage = require("./storage/local");
