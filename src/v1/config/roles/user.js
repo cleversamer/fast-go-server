@@ -32,4 +32,7 @@ module.exports = Object.freeze({
     "read:own": ["*"],
     "create:own": ["*"],
   },
+  paymentCard: {
+    "read:own": ["*"],
+  },
 });

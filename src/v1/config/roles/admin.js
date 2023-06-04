@@ -9,4 +9,5 @@ module.exports = Object.freeze({
   error: allRights,
   savedPlace: allRights,
   trip: allRights,
+  paymentCard: allRights,
 });

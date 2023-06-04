@@ -3,6 +3,7 @@ module.exports.usersService = require("./user/users");
 module.exports.googleService = require("./user/google");
 module.exports.tripsService = require("./user/trips");
 module.exports.challengesService = require("./user/challenges");
+module.exports.paymentCardsService = require("./user/paymentCards");
 
 module.exports.excelService = require("./storage/excel");
 module.exports.localStorage = require("./storage/local");

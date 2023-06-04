@@ -265,6 +265,10 @@ module.exports = (mongodbSchema) => {
     return this.balance;
   };
 
+  mongodbSchema.methods.addBalance = function (amount) {
+    this.balance += amount;
+  };
+
   //////////////////////// DEVICE TOKEN ////////////////////////
   mongodbSchema.methods.updateDeviceToken = function (deviceToken) {
     // Check if `deviceToken` param exists
