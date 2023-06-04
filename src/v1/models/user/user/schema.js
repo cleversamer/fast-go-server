@@ -99,14 +99,14 @@ module.exports.mongodb = new Schema(
     // The role of the user
     role: {
       type: String,
+      required: true,
       enum: config.roles,
-      default: config.roles[0],
     },
     // User's gender
     gender: {
       type: String,
-      enum: config.genders,
       required: true,
+      enum: config.genders,
     },
     // User's saved places
     savedPlaces: [
@@ -114,6 +114,8 @@ module.exports.mongodb = new Schema(
         title: {
           type: String,
           required: true,
+          minlength: config.savedPlaceTitle.minLength,
+          maxlength: config.savedPlaceTitle.maxLength,
         },
         type: {
           type: String,
@@ -160,6 +162,7 @@ module.exports.mongodb = new Schema(
     notifications: {
       active: {
         type: Boolean,
+        required: true,
         default: true,
       },
       list: {

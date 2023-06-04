@@ -18,7 +18,7 @@ module.exports = {
   receiverTypes: ["email", "phone"],
   maxNotificationsCount: 30,
   // First value is the default value
-  languages: ["en", "ar"],
+  languages: ["ar", "en"],
   genders: ["male", "female"],
   savedPlaceTypes: [
     "main",
@@ -30,6 +30,7 @@ module.exports = {
     "partners",
     "other",
   ],
+  savedPlaceTitle: { minLength: 6, maxLength: 128 },
   notificationTitle: { min: 3, max: 128 },
   notificationBody: { min: 3, max: 265 },
   maxRequestsCountForInactiveUsers: 5,

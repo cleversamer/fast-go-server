@@ -98,3 +98,26 @@ module.exports.validateGetMostUsedUsers = [
   commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
+
+module.exports.validateSavePlace = [
+  commonMiddleware.checkPlaceTitle,
+  commonMiddleware.checkCarType,
+  commonMiddleware.checkLongitude,
+  commonMiddleware.checkLatitude,
+  commonMiddleware.next,
+];
+
+module.exports.validateUpdateSavedPlace = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkPlaceId,
+  commonMiddleware.checkCarType,
+  commonMiddleware.checkLongitude,
+  commonMiddleware.checkLatitude,
+  commonMiddleware.next,
+];
+
+module.exports.validateDeleteSavedPlace = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkPlaceId,
+  commonMiddleware.next,
+];

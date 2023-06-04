@@ -109,4 +109,8 @@ module.exports = Object.freeze({
     en: "Language doesn't match the required language",
     ar: "اللغة لا تتطابق مع اللغة المطلوبة",
   },
+  invalidCoordintes: {
+    en: "Invalid coordinates",
+    ar: "الإحداثيات غير صالحة",
+  },
 });

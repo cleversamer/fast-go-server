@@ -114,18 +114,21 @@ module.exports = (router) => {
 
   router.post(
     "/places/add",
+    userValidator.validateSavePlace,
     auth("createOwn", "savedPlace"),
     usersController.savePlace
   );
 
   router.patch(
     "/places/:placeId/update",
+    userValidator.validateUpdateSavedPlace,
     auth("updateOwn", "savedPlace"),
     usersController.updateSavedPlace
   );
 
   router.delete(
     "/places/:placeId/delete",
+    userValidator.validateDeleteSavedPlace,
     auth("updateOwn", "savedPlace"),
     usersController.deleteSavedPlace
   );

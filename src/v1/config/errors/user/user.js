@@ -2,6 +2,7 @@ const {
   notificationTitle,
   notificationBody,
   referralCode,
+  savedPlaceTitle,
 } = require("../../models/user/user");
 
 module.exports = Object.freeze({
@@ -62,15 +63,15 @@ module.exports = Object.freeze({
     ar: "حصل خطأ عند إرسال الإشعار",
   },
   invalidUserIds: {
-    en: "User IDs should be a list",
+    en: "User IDs must be a list",
     ar: "معرّفات المستخدمين يجب أن تكون قائمة",
   },
   invalidNotificationTitle: {
-    en: `Notification's title should be ${notificationTitle.min.toLocaleString()}-${notificationTitle.max.toLocaleString()} letters`,
+    en: `Notification's title must be ${notificationTitle.min.toLocaleString()}-${notificationTitle.max.toLocaleString()} letters`,
     ar: `عنوان الإشعار يجب أن يكون بين ${notificationTitle.min.toLocaleString()}-${notificationTitle.max.toLocaleString()} حرفًا`,
   },
   invalidNotificationBody: {
-    en: `Notification's body should be ${notificationBody.min.toLocaleString()}-${notificationBody.max.toLocaleString()} letters`,
+    en: `Notification's body must be ${notificationBody.min.toLocaleString()}-${notificationBody.max.toLocaleString()} letters`,
     ar: `محتوى الإشعار يجب أن يكون بين ${notificationBody.min.toLocaleString()}-${notificationBody.max.toLocaleString()} حرفًا`,
   },
   errorDeletingAccount: {
@@ -104,5 +105,13 @@ module.exports = Object.freeze({
   placeNotUpdated: {
     en: "An error occurred while updating your saved place",
     ar: "حصل خطأ أثناء تحديث عنوانك",
+  },
+  invalidPlaceTitle: {
+    en: `Place's title must be ${savedPlaceTitle.min.toLocaleString()}-${savedPlaceTitle.max.toLocaleString()} letters`,
+    ar: `عنوان المكان يجب أن يكون بين ${savedPlaceTitle.min.toLocaleString()}-${savedPlaceTitle.max.toLocaleString()} حرفًا`,
+  },
+  invalidPlaceId: {
+    en: "Invalid place ID",
+    ar: "معرّف المكان غير صالح",
   },
 });

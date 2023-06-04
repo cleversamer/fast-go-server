@@ -6,7 +6,10 @@ const errors = require("../../config/errors");
 const { server } = require("../../config/system");
 const countries = require("../../data/countries.json");
 const { rateLimit } = require("express-rate-limit");
-const { user: userValidation } = require("../../config/models");
+const {
+  user: userValidation,
+  car: carValidation,
+} = require("../../config/models");
 const { isValidObjectId } = require("mongoose");
 
 module.exports.putQueryParamsInBody = (req, res, next) => {
@@ -354,6 +357,33 @@ module.exports.checkErrorId = check("errorId")
   .isMongoId()
   .withMessage(errors.serverError.invalidId);
 
+module.exports.checkPlaceId = check("placeId")
+  .isMongoId()
+  .withMessage(errors.user.invalidPlaceId);
+
+module.exports.checkPlaceTitle = check("title")
+  .isLength({
+    min: userValidation.savedPlaceTitle.minLength,
+    max: userValidation.savedPlaceTitle.maxLength,
+  })
+  .withMessage(errors.user.invalidPlaceTitle);
+
+module.exports.checkCarType = check("type")
+  .isIn(carValidation.carTypes)
+  .withMessage(errors.car.invalidCarType);
+
+module.exports.checkLongitude = check("longitude")
+  .isFloat({
+    min: -180,
+    max: 180,
+  })
+  .withMessage(errors.system.invalidCoordintes);
+
+module.exports.checkLatitude = check("latitude")
+  .isFloat({ min: -90, max: 90 })
+  .withMessage(errors.system.invalidCoordintes);
+
+//////////////////// RATE LIMIT ////////////////////
 module.exports.limitSendEmailVerificationCode = rateLimit({
   // Limit duration in milliseconds
   windowMs: 1000 * 60 * 30, // 30 minutes
