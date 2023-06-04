@@ -107,8 +107,8 @@ module.exports = Object.freeze({
     ar: "حصل خطأ أثناء تحديث عنوانك",
   },
   invalidPlaceTitle: {
-    en: `Place's title must be ${savedPlaceTitle.min.toLocaleString()}-${savedPlaceTitle.max.toLocaleString()} letters`,
-    ar: `عنوان المكان يجب أن يكون بين ${savedPlaceTitle.min.toLocaleString()}-${savedPlaceTitle.max.toLocaleString()} حرفًا`,
+    en: `Place's title must be ${savedPlaceTitle.minLength.toLocaleString()}-${savedPlaceTitle.maxLength.toLocaleString()} letters`,
+    ar: `عنوان المكان يجب أن يكون بين ${savedPlaceTitle.minLength.toLocaleString()}-${savedPlaceTitle.maxLength.toLocaleString()} حرفًا`,
   },
   invalidPlaceId: {
     en: "Invalid place ID",

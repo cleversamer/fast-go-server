@@ -8,8 +8,13 @@ const { ApiError } = require("../../../middleware/apiError");
 module.exports.getMyPassengerChallenges = async (req, res, next) => {
   try {
     const user = req.user;
+    const { page, limit } = req.query;
 
-    const trips = await challengesService.getMyPassengerChallenges(user._id);
+    const trips = await challengesService.getPassengerChallenges(
+      user._id,
+      page,
+      limit
+    );
 
     if (!trips || !trips.length) {
       const statusCode = httpStatus.NOT_FOUND;
