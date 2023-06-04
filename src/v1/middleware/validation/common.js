@@ -9,6 +9,7 @@ const { rateLimit } = require("express-rate-limit");
 const {
   user: userValidation,
   car: carValidation,
+  paymentCard: paymentCardValidation,
 } = require("../../config/models");
 const { isValidObjectId } = require("mongoose");
 
@@ -382,6 +383,13 @@ module.exports.checkLongitude = check("longitude")
 module.exports.checkLatitude = check("latitude")
   .isFloat({ min: -90, max: 90 })
   .withMessage(errors.system.invalidCoordintes);
+
+module.exports.checkPaymentCardCode = check("cardCode")
+  .isLength({
+    min: paymentCardValidation.code.exactLength,
+    max: paymentCardValidation.code.exactLength,
+  })
+  .withMessage(errors.paymentCard.invalidCode);
 
 //////////////////// RATE LIMIT ////////////////////
 module.exports.limitSendEmailVerificationCode = rateLimit({
