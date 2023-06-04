@@ -8,8 +8,9 @@ const { ApiError } = require("../../../middleware/apiError");
 module.exports.getMyDriverTrips = async (req, res, next) => {
   try {
     const user = req.user;
+    const { page, limit } = req.query;
 
-    const trips = await tripsService.getMyDriverTrips(user._id);
+    const trips = await tripsService.getDriverTrips(user._id, page, limit);
 
     if (!trips || !trips.length) {
       const statusCode = httpStatus.NOT_FOUND;

@@ -10,6 +10,7 @@ const {
   user: userValidation,
   car: carValidation,
   paymentCard: paymentCardValidation,
+  trip: tripValidation,
 } = require("../../config/models");
 const { isValidObjectId } = require("mongoose");
 
@@ -369,6 +370,20 @@ module.exports.checkPlaceTitle = check("title")
   })
   .withMessage(errors.user.invalidPlaceTitle);
 
+module.exports.checkFromPlaceTitle = check("fromTitle")
+  .isLength({
+    min: userValidation.savedPlaceTitle.minLength,
+    max: userValidation.savedPlaceTitle.maxLength,
+  })
+  .withMessage(errors.user.invalidPlaceTitle);
+
+module.exports.checkToPlaceTitle = check("toTitle")
+  .isLength({
+    min: userValidation.savedPlaceTitle.minLength,
+    max: userValidation.savedPlaceTitle.maxLength,
+  })
+  .withMessage(errors.user.invalidPlaceTitle);
+
 module.exports.checkCarType = check("type")
   .isIn(carValidation.carTypes)
   .withMessage(errors.car.invalidCarType);
@@ -380,7 +395,29 @@ module.exports.checkLongitude = check("longitude")
   })
   .withMessage(errors.system.invalidCoordintes);
 
+module.exports.checkFromLongitude = check("fromLongitude")
+  .isFloat({
+    min: -180,
+    max: 180,
+  })
+  .withMessage(errors.system.invalidCoordintes);
+
+module.exports.checkToLongitude = check("toLongitude")
+  .isFloat({
+    min: -180,
+    max: 180,
+  })
+  .withMessage(errors.system.invalidCoordintes);
+
 module.exports.checkLatitude = check("latitude")
+  .isFloat({ min: -90, max: 90 })
+  .withMessage(errors.system.invalidCoordintes);
+
+module.exports.checkFromLatitude = check("fromLatitude")
+  .isFloat({ min: -90, max: 90 })
+  .withMessage(errors.system.invalidCoordintes);
+
+module.exports.checkToLatitude = check("toLatitude")
   .isFloat({ min: -90, max: 90 })
   .withMessage(errors.system.invalidCoordintes);
 
@@ -390,6 +427,14 @@ module.exports.checkPaymentCardCode = check("cardCode")
     max: paymentCardValidation.code.exactLength,
   })
   .withMessage(errors.paymentCard.invalidCode);
+
+module.exports.checkTripId = check("tripId")
+  .isMongoId()
+  .withMessage(errors.trip.invalidId);
+
+module.exports.checkTripPaymentMethod = check("paymentMethod")
+  .isIn(tripValidation.paymentMethods)
+  .withMessage(errors.trip.invalidPaymentMethod);
 
 //////////////////// RATE LIMIT ////////////////////
 module.exports.limitSendEmailVerificationCode = rateLimit({

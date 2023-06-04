@@ -8,8 +8,9 @@ const { ApiError } = require("../../../middleware/apiError");
 module.exports.getMyPassengerTrips = async (req, res, next) => {
   try {
     const user = req.user;
+    const { page, limit } = req.query;
 
-    const trips = await tripsService.getMyPassengerTrips(user._id);
+    const trips = await tripsService.getPassengerTrips(user._id, page, limit);
 
     if (!trips || !trips.length) {
       const statusCode = httpStatus.NOT_FOUND;

@@ -4,9 +4,15 @@ const httpStatus = require("http-status");
 const errors = require("../../../config/errors");
 const { getIO } = require("../../../setup/socket");
 
-module.exports.getMyPassengerTrips = async (userId) => {
+module.exports.getPassengerTrips = async (userId, page, limit) => {
   try {
-    const trips = await Trip.find({ passengerId: userId }).sort({ _id: -1 });
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const trips = await Trip.find({ passengerId: userId })
+      .sort({ _id: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     if (!trips || !trips.length) {
       const statusCode = httpStatus.NOT_FOUND;

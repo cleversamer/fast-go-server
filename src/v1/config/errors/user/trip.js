@@ -11,4 +11,12 @@ module.exports = Object.freeze({
     en: "You're not the driver of this trip",
     ar: "أنت لست السائق لهذه الرحلة",
   },
+  invalidId: {
+    en: "Invalid trip ID",
+    ar: "معرّف الرحلة غير صالح",
+  },
+  invalidPaymentMethod: {
+    en: "Invalid payment method",
+    ar: "طريقة الدفع غير صالحة",
+  },
 });
