@@ -1,5 +1,5 @@
 const { User } = require("../../../models/user/user");
-const { Car } = require("../../../models/user/car");
+const { Car, querySchema } = require("../../../models/user/car");
 const httpStatus = require("http-status");
 const errors = require("../../../config/errors");
 
@@ -14,6 +14,17 @@ module.exports.getUnverifiedCars = async (page, limit) => {
       { $sort: { _id: -1 } },
       { $skip: (page - 1) * limit },
       { $limit: limit },
+      {
+        $lookup: {
+          from: "User",
+          localField: "driver",
+          foreignField: "_id",
+          as: "driver",
+        },
+      },
+      {
+        $project: querySchema,
+      },
     ]);
 
     if (!unverifiedCars || !unverifiedCars.length) {
