@@ -2,8 +2,6 @@ const httpStatus = require("http-status");
 const _ = require("lodash");
 const { clientSchema } = require("../../../models/user/trip");
 const { tripsService } = require("../../../services");
-const errors = require("../../../config/errors");
-const { ApiError } = require("../../../middleware/apiError");
 
 module.exports.getMyDriverTrips = async (req, res, next) => {
   try {
@@ -11,12 +9,6 @@ module.exports.getMyDriverTrips = async (req, res, next) => {
     const { page, limit } = req.query;
 
     const trips = await tripsService.getDriverTrips(user._id, page, limit);
-
-    if (!trips || !trips.length) {
-      const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.trip.noTrips;
-      throw new ApiError(statusCode, message);
-    }
 
     const response = {
       trips: trips.map((trip) => _.pick(trip, clientSchema)),

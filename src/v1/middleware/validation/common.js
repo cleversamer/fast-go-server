@@ -388,6 +388,41 @@ module.exports.checkCarType = check("type")
   .isIn(carValidation.carTypes)
   .withMessage(errors.car.invalidCarType);
 
+module.exports.checkPlateNumber = (req, res, next) => {
+  try {
+    const { plateNumber } = req.body;
+
+    // Remove any spaces from the plate number
+    plateNumber = plateNumber.replace(/\s/g, "");
+
+    // The regular expression pattern for a valid Libyan car plate number
+    const pattern = /^[A-Z]{3}\s?\d{4}$/;
+
+    // Check if the plate number matches the pattern
+    if (pattern.test(plateNumber)) {
+      return next();
+    } else {
+      const statusCode = httpStatus.BAD_REQUEST;
+      const message = errors.car.invalidPlateNumber;
+      throw new ApiError(statusCode, message);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.checkCarColor = check("color")
+  .isIn(carValidation.colors)
+  .withMessage(errors.car.invalidColor);
+
+module.exports.checkCarModel = check("model")
+  .isIn(carValidation.models)
+  .withMessage(errors.car.invalidModel);
+
+module.exports.checkCarProductionYear = check("productionYear")
+  .isIn(carValidation.productionYears)
+  .withMessage(errors.car.invalidProductionYear);
+
 module.exports.checkLongitude = check("longitude")
   .isFloat({
     min: -180,

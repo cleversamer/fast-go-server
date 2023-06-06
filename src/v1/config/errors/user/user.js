@@ -114,4 +114,8 @@ module.exports = Object.freeze({
     en: "Invalid place ID",
     ar: "معرّف المكان غير صالح",
   },
+  addedCarBefore: {
+    en: "You have already added a car",
+    ar: "لقد قمت بإضافة سيّارة مسبقًا",
+  },
 });
