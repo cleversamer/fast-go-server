@@ -87,6 +87,10 @@ module.exports.checkLastName = check("lastName")
   })
   .withMessage(errors.auth.invalidLastName);
 
+module.exports.checkGender = check("gender")
+  .isIn(userValidation.genders)
+  .withMessage(errors.user.invalidGender);
+
 module.exports.checkReferralCode = check("referralCode")
   .isLength({
     min: userValidation.referralCode.exactLength,

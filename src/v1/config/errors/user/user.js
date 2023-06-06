@@ -118,4 +118,8 @@ module.exports = Object.freeze({
     en: "You have already added a car",
     ar: "لقد قمت بإضافة سيّارة مسبقًا",
   },
+  invalidGender: {
+    en: "Selected gender is invalid",
+    ar: "الجنس الذي اخترته غير صالح",
+  },
 });

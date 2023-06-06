@@ -12,6 +12,8 @@ const transporter = nodemailer.createTransport({
 
 module.exports.sendWelcomingEmail = async (lang, email, name) => {
   try {
+    if (!email) return;
+
     if (!["ar", "en"].includes(lang)) {
       lang = "en";
     }
@@ -34,6 +36,8 @@ module.exports.sendWelcomingEmail = async (lang, email, name) => {
 
 module.exports.sendEmailVerifiedEmail = async (lang, email, name) => {
   try {
+    if (!email) return;
+
     if (!["ar", "en"].includes(lang)) {
       lang = "en";
     }
@@ -62,6 +66,8 @@ module.exports.sendVerificationCodeEmail = async (
   verificationLink
 ) => {
   try {
+    if (!email) return;
+
     if (!["ar", "en"].includes(lang)) {
       lang = "en";
     }
@@ -90,6 +96,8 @@ module.exports.sendChangeEmail = async (
   verificationLink
 ) => {
   try {
+    if (!email) return;
+
     if (!["ar", "en"].includes(lang)) {
       lang = "en";
     }
@@ -117,6 +125,8 @@ module.exports.sendAccountDeletionCodeEmail = async (
   deletionLink
 ) => {
   try {
+    if (!email) return;
+
     if (!["ar", "en"].includes(lang)) {
       lang = "en";
     }
@@ -139,6 +149,8 @@ module.exports.sendAccountDeletionCodeEmail = async (
 
 module.exports.sendAccountDeletedEmail = async (lang, email, name) => {
   try {
+    if (!email) return;
+
     if (!["ar", "en"].includes(lang)) {
       lang = "en";
     }
@@ -161,6 +173,8 @@ module.exports.sendAccountDeletedEmail = async (lang, email, name) => {
 
 module.exports.sendWelcomeBackEmail = async (lang, email, name) => {
   try {
+    if (!email) return;
+
     if (!["ar", "en"].includes(lang)) {
       lang = "en";
     }

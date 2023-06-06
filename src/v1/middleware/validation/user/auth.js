@@ -7,18 +7,13 @@ module.exports.validateJoinWithEmailAndPhone = [
   commonMiddleware.checkPhoneNSN,
   commonMiddleware.checkFirstName,
   commonMiddleware.checkLastName,
+  commonMiddleware.checkGender,
   commonMiddleware.checkRegisterRole,
-  commonMiddleware.checkDeviceToken,
-  commonMiddleware.next,
-  commonMiddleware.limitJoin,
-];
-
-module.exports.validateJoinWithGoogle = [
-  commonMiddleware.conditionalCheck("lang", commonMiddleware.checkLanguage),
   commonMiddleware.conditionalCheck(
-    "deviceToken",
-    commonMiddleware.checkDeviceToken
+    "referralCode",
+    commonMiddleware.checkReferralCode
   ),
+  commonMiddleware.checkDeviceToken,
   commonMiddleware.next,
   commonMiddleware.limitJoin,
 ];
