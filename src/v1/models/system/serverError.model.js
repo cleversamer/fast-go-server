@@ -45,6 +45,7 @@ const serverErrorSchema = new Schema(
     date: {
       type: Date,
       required: true,
+      default: new Date(),
     },
   },
   {

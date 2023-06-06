@@ -20,6 +20,7 @@ module.exports.mongodb = new Schema(
     code: {
       type: String,
       required: true,
+      trim: true,
       unique: true,
       minlength: config.code.exactLength,
       maxlength: config.code.exactLength,

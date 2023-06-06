@@ -100,12 +100,14 @@ module.exports.mongodb = new Schema(
     role: {
       type: String,
       required: true,
+      trim: true,
       enum: config.roles,
     },
     // User's gender
     gender: {
       type: String,
       required: true,
+      trim: true,
       enum: config.genders,
     },
     // User's saved places
@@ -114,12 +116,14 @@ module.exports.mongodb = new Schema(
         title: {
           type: String,
           required: true,
+          trim: true,
           minlength: config.savedPlaceTitle.minLength,
           maxlength: config.savedPlaceTitle.maxLength,
         },
         type: {
           type: String,
           required: true,
+          trim: true,
           enum: config.savedPlaceTypes,
         },
         latitude: {
@@ -205,9 +209,10 @@ module.exports.mongodb = new Schema(
     // The device token of the user (Used for sending notifications to it)
     deviceToken: {
       type: String,
+      required: true,
+      trim: true,
       minlength: config.deviceToken.minLength,
       maxlength: config.deviceToken.maxLength,
-      default: "",
     },
     // The last login date of the user
     lastLogin: {
@@ -226,44 +231,37 @@ module.exports.mongodb = new Schema(
     },
     // The email, phone verification codes
     verification: {
-      join: {
-        code: {
-          type: String,
-          default: "",
-        },
-        expiryDate: {
-          type: Date,
-          default: "",
-        },
-      },
       email: {
         code: {
           type: String,
+          trim: true,
           default: "",
         },
         expiryDate: {
           type: Date,
-          default: "",
+          default: new Date(),
         },
       },
       phone: {
         code: {
           type: String,
+          trim: true,
           default: "",
         },
         expiryDate: {
           type: Date,
-          default: "",
+          default: new Date(),
         },
       },
       deletion: {
         code: {
           type: String,
+          trim: true,
           default: "",
         },
         expiryDate: {
           type: Date,
-          default: "",
+          default: new Date(),
         },
       },
     },

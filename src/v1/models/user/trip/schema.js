@@ -32,11 +32,13 @@ const schema = new Schema(
     paymentMethod: {
       type: String,
       required: true,
+      trim: true,
       enum: tripConfig.paymentMethods,
     },
     carType: {
       type: String,
       required: true,
+      trim: true,
       enum: carConfig.carTypes,
     },
     from: {

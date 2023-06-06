@@ -51,6 +51,7 @@ const schema = new Schema(
     type: {
       type: String,
       required: true,
+      trim: true,
       enum: config.carTypes,
     },
     documents: {

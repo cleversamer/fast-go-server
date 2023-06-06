@@ -21,10 +21,12 @@ const schema = new Schema(
       en: {
         type: String,
         required: true,
+        trim: true,
       },
       ar: {
         type: String,
         required: true,
+        trim: true,
       },
     },
     reward: {
