@@ -14,9 +14,13 @@ module.exports = Object.freeze({
     en: "User were not found",
     ar: "لم يتم العثور على المستخدمين",
   },
-  notFound: {
+  userNotFound: {
     en: "User was not found",
     ar: "لم يتم العثور على المستخدم",
+  },
+  driverNotFound: {
+    en: "Driver was not found",
+    ar: "لم يتم العثور على السائق",
   },
   emailAlreadyVerified: {
     en: "Your email has already been verified",

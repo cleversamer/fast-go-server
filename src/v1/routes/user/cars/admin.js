@@ -9,4 +9,11 @@ module.exports = (router) => {
     auth("readAny", "car"),
     carsController.getUnverifiedCars
   );
+
+  router.post(
+    "/admin/:carId/verify",
+    carValidator.validateVerifyCar,
+    auth("readAny", "car"),
+    carsController.verifyCar
+  );
 };

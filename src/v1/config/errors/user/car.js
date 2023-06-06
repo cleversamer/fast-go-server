@@ -1,4 +1,12 @@
 module.exports = Object.freeze({
+  notFound: {
+    en: "Car was not found",
+    ar: "السيّارة غير موجودة",
+  },
+  invalidId: {
+    en: "Invalid car ID",
+    ar: "معرّف السيّارة غير صالح",
+  },
   invalidCarType: {
     en: "Selected car type is invalid",
     ar: "نوع السيّارة الذي اخترته غير صالح",

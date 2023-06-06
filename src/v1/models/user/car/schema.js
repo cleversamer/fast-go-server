@@ -14,6 +14,19 @@ module.exports.client = [
   "documents",
 ];
 
+module.exports.query = {
+  _id: 1,
+  driver: 1,
+  verified: 1,
+  photos: 1,
+  plateNumber: 1,
+  productionYear: 1,
+  model: 1,
+  color: 1,
+  type: 1,
+  documents: 1,
+};
+
 const schema = new Schema(
   {
     driver: {

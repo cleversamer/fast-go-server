@@ -18,3 +18,17 @@ module.exports.getUnverifiedCars = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.verifyCar = async (req, res, next) => {
+  try {
+    const { carId } = req.params;
+
+    const { car } = await carsService.verifyCar(carId);
+
+    const response = _.pick(car, clientSchema);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

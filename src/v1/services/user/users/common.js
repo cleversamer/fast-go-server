@@ -114,7 +114,7 @@ module.exports.verifyEmailByLink = async (token, code) => {
     const user = await User.findById(payload.sub);
     if (!user) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.notFound;
+      const message = errors.user.userNotFound;
       throw new ApiError(statusCode, message);
     }
 
@@ -350,7 +350,7 @@ module.exports.confirmAccountDeletion = async (token, code) => {
     const user = await User.findById(payload.sub);
     if (!user || user.isDeleted()) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.notFound;
+      const message = errors.user.userNotFound;
       throw new ApiError(statusCode, message);
     }
 

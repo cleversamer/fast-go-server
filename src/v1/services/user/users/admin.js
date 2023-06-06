@@ -9,7 +9,7 @@ module.exports.changeUserRole = async (emailOrPhone, role) => {
     const user = await this.findUserByEmailOrPhone(emailOrPhone);
     if (!user) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.notFound;
+      const message = errors.user.userNotFound;
       throw new ApiError(statusCode, message);
     }
 
@@ -37,7 +37,7 @@ module.exports.verifyUser = async (emailOrPhone) => {
     const user = await this.findUserByEmailOrPhone(emailOrPhone);
     if (!user) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.notFound;
+      const message = errors.user.userNotFound;
       throw new ApiError(statusCode, message);
     }
 
@@ -81,7 +81,7 @@ module.exports.findUserByEmailOrPhone = async (
     // Throwing error if no user found and `throwError = true`
     if (withError && !user) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.notFound;
+      const message = errors.user.userNotFound;
       throw new ApiError(statusCode, message);
     }
 

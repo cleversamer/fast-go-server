@@ -9,4 +9,5 @@ const Car = model("Car", schema.mongodb);
 module.exports = {
   Car,
   clientSchema: schema.client,
+  querySchema: schema.query,
 };

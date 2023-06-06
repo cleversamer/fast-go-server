@@ -135,6 +135,10 @@ module.exports = (mongodbSchema) => {
     return this.role === "driver";
   };
 
+  mongodbSchema.methods.verifyDriver = function () {
+    this.verified.driver = true;
+  };
+
   //////////////////////// ROLE ////////////////////////
   mongodbSchema.methods.getRole = function () {
     return this.role;

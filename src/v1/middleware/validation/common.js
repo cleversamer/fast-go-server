@@ -388,6 +388,10 @@ module.exports.checkToPlaceTitle = check("toTitle")
   })
   .withMessage(errors.user.invalidPlaceTitle);
 
+module.exports.checkCarId = check("carId")
+  .isMongoId()
+  .withMessage(errors.car.invalidId);
+
 module.exports.checkCarType = check("type")
   .isIn(carValidation.carTypes)
   .withMessage(errors.car.invalidCarType);

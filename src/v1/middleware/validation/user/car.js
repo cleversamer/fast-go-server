@@ -40,3 +40,9 @@ module.exports.validateGetUnverifiedCars = [
   commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
+
+module.exports.validateVerifyCar = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkCarId,
+  commonMiddleware.next,
+];
