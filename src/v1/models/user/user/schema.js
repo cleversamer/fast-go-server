@@ -187,7 +187,6 @@ module.exports.mongodb = new Schema(
         type: String,
         required: true,
         trim: true,
-        unique: true,
         minlength: config.referralCode.exactLength,
         maxlength: config.referralCode.exactLength,
       },

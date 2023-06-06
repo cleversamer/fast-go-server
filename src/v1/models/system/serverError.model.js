@@ -29,14 +29,12 @@ const serverErrorSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      unique: true,
     },
     // The stack of the error
     stackTrace: {
       type: String,
       required: true,
       trim: true,
-      unique: true,
     },
     // How many times this error occurs
     occurs: {

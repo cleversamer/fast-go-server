@@ -3,7 +3,7 @@ const { paymentCard: config } = require("../../../config/models");
 
 module.exports.client = ["_id", "charger", "balance"];
 
-const mongodbSchema = new Schema(
+module.exports.mongodb = new Schema(
   {
     charger: {
       type: Types.ObjectId,
@@ -33,7 +33,3 @@ const mongodbSchema = new Schema(
     timestamps: true,
   }
 );
-
-mongodbSchema.index({ charger: -1 });
-
-module.exports.mongodb = mongodbSchema;

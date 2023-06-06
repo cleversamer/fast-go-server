@@ -10,7 +10,7 @@ module.exports.client = [
   "completed",
 ];
 
-module.exports.mongodb = new Schema(
+const schema = new Schema(
   {
     userId: {
       type: Types.ObjectId,
@@ -52,3 +52,7 @@ module.exports.mongodb = new Schema(
     timestamps: true,
   }
 );
+
+schema.index({ userId: 1 });
+
+module.exports.mongodb = schema;

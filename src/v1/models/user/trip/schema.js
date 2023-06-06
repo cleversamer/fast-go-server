@@ -87,7 +87,7 @@ const schema = new Schema(
   }
 );
 
-schema.index({ driver: -1 });
-schema.index({ passenger: -1 });
+schema.index({ driverId: -1 });
+schema.index({ passengerId: -1 });
 
 module.exports.mongodb = schema;

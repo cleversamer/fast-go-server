@@ -13,7 +13,7 @@ module.exports.client = [
   "documents",
 ];
 
-module.exports.mongodb = new Schema(
+const schema = new Schema(
   {
     driver: {
       type: Types.ObjectId,
@@ -84,3 +84,7 @@ module.exports.mongodb = new Schema(
     timestamps: true,
   }
 );
+
+schema.index({ driver: 1 });
+
+module.exports.mongodb = schema;
