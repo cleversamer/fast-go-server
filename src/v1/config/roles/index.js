@@ -1,9 +1,11 @@
 const AccessControl = require("accesscontrol");
-const user = require("./user");
+const passenger = require("./passenger");
+const driver = require("./driver");
 const admin = require("./admin");
 
 const roles = new AccessControl({
-  user,
+  passenger,
+  driver,
   admin,
 });
 

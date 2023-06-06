@@ -33,3 +33,10 @@ module.exports.validateAddCar = [
     true
   ),
 ];
+
+module.exports.validateGetUnverifiedCars = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
+  commonMiddleware.next,
+];

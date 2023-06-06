@@ -161,6 +161,10 @@ module.exports.mongodb = new Schema(
         type: Boolean,
         default: false,
       },
+      driver: {
+        type: Boolean,
+        default: false,
+      },
     },
     // The notifications of the user
     notifications: {

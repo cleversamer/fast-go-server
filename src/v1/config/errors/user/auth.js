@@ -31,6 +31,10 @@ module.exports = Object.freeze({
     en: "You must verify your phone number to be able to use the application",
     ar: "يجب عليك تفعيل رقم هاتفك لتتمكن من استخدام التطبيق",
   },
+  driverNotVerified: {
+    en: "You must wait until your driver account becomes verified to be able to use the application",
+    ar: "يجب عليك الانتظار حتى يتم التحقق من حساب السائق الخاص بك لتتمكن من استخدام التطبيق",
+  },
   emailNotUsed: {
     en: "Email is not in use",
     ar: "البريد الإلكتروني غير مستخدم",

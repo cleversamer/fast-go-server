@@ -16,12 +16,24 @@ const verify = (req, res, resolve, reject, rights) => async (err, user) => {
   req.user = user;
 
   // Get the 3rd right => Require no user verification
-  const requireNoVerified = rights[2];
+  const requireNoPhoneVerification = rights[2];
+
+  // Get the 4th right => Require no user verification
+  const requireNoDriverVerification = rights[3];
 
   // Check if user has verified their phone nuber
-  if (!requireNoVerified && !user.isPhoneVerified()) {
+  if (!requireNoPhoneVerification && !user.isPhoneVerified()) {
     const statusCode = httpStatus.FORBIDDEN;
     const message = errors.auth.phoneNotVerified;
+    return reject(new ApiError(statusCode, message));
+  }
+
+  // Check if it's driver and verified
+  const isVerifiedDriver =
+    requireNoDriverVerification || (user.isDriver() && user.isVerifiedDriver());
+  if (!isVerifiedDriver) {
+    const statusCode = httpStatus.FORBIDDEN;
+    const message = errors.auth.driverNotVerified;
     return reject(new ApiError(statusCode, message));
   }
 

@@ -19,4 +19,8 @@ module.exports = Object.freeze({
     en: "Selected car production year is invalid",
     ar: "سنة انتاج السيّارة التي اخترتها غير صالحة",
   },
+  noUnverifiedCars: {
+    en: "There're no unverified cars so far",
+    ar: "لا يوجد سيّارات غير مفعّلة حتى الآن",
+  },
 });

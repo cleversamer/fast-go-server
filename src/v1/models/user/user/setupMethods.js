@@ -126,6 +126,15 @@ module.exports = (mongodbSchema) => {
     return this.phone.nsn;
   };
 
+  //////////////////////// DRIVER ////////////////////////
+  mongodbSchema.methods.isVerifiedDriver = function () {
+    return this.verified.driver;
+  };
+
+  mongodbSchema.methods.isDriver = function () {
+    return this.role === "driver";
+  };
+
   //////////////////////// ROLE ////////////////////////
   mongodbSchema.methods.getRole = function () {
     return this.role;

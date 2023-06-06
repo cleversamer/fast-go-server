@@ -4,6 +4,7 @@ const { car: config } = require("../../../config/models");
 module.exports.client = [
   "_id",
   "driver",
+  "verified",
   "photos",
   "plateNumber",
   "productionYear",
@@ -19,6 +20,11 @@ const schema = new Schema(
       type: Types.ObjectId,
       ref: "User",
       required: true,
+    },
+    verified: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
     photos: {
       type: Array,
@@ -87,5 +93,6 @@ const schema = new Schema(
 );
 
 schema.index({ driver: 1 });
+schema.index({ verified: 1 });
 
 module.exports.mongodb = schema;

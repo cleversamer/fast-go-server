@@ -4,9 +4,9 @@ const auth = require("../../../middleware/auth");
 
 module.exports = (router) => {
   router.post(
-    "/driver/add",
-    carValidator.validateAddCar,
-    auth("createOwn", "car", true, true),
-    carsController.addCar
+    "/admin/unverified",
+    carValidator.validateGetUnverifiedCars,
+    auth("readAny", "car"),
+    carsController.getUnverifiedCars
   );
 };
