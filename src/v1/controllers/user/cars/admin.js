@@ -22,8 +22,9 @@ module.exports.getUnverifiedCars = async (req, res, next) => {
 module.exports.verifyCar = async (req, res, next) => {
   try {
     const { carId } = req.params;
+    const { type } = req.body;
 
-    const { car } = await carsService.verifyCar(carId);
+    const { car } = await carsService.verifyCar(carId, type);
 
     const response = _.pick(car, clientSchema);
 

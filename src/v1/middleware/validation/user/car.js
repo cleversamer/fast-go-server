@@ -2,7 +2,6 @@ const commonMiddleware = require("../common");
 const { server } = require("../../../config/system");
 
 module.exports.validateAddCar = [
-  commonMiddleware.checkCarType,
   commonMiddleware.checkPlateNumber,
   commonMiddleware.checkCarColor,
   commonMiddleware.checkCarModel,
@@ -44,5 +43,6 @@ module.exports.validateGetUnverifiedCars = [
 module.exports.validateVerifyCar = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkCarId,
+  commonMiddleware.checkCarType,
   commonMiddleware.next,
 ];

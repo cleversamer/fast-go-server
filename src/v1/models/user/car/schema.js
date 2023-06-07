@@ -72,6 +72,7 @@ const schema = new Schema(
       required: true,
       trim: true,
       enum: config.carTypes,
+      default: config.carTypes[0],
     },
     documents: {
       brochure: {

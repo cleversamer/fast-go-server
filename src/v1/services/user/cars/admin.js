@@ -39,7 +39,7 @@ module.exports.getUnverifiedCars = async (page, limit) => {
   }
 };
 
-module.exports.verifyCar = async (carId) => {
+module.exports.verifyCar = async (carId, type) => {
   try {
     const car = await Car.findById(carId);
     if (!car) {
@@ -55,8 +55,9 @@ module.exports.verifyCar = async (carId) => {
       throw new ApiError(statusCode, message);
     }
 
-    // Veriy car
+    // Veriy car and update its type
     car.verify();
+    car.updateType(type);
     await car.save();
 
     // Verify driver

@@ -10,7 +10,6 @@ module.exports.addCar = async (
   productionYear,
   model,
   color,
-  type,
   avatar,
   photo1,
   photo2,
@@ -74,7 +73,6 @@ module.exports.addCar = async (
       model,
       plateNumber,
       productionYear,
-      type,
       documents: {
         brochure: photoURLs.brochure,
         driverLicense: photoURLs.driverLicense,
