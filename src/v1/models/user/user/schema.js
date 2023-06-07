@@ -24,14 +24,6 @@ module.exports.client = [
 
 module.exports.mongodb = new Schema(
   {
-    // User's first authentication type
-    authType: {
-      type: String,
-      required: true,
-      trim: true,
-      enum: config.authTypes,
-      default: config.authTypes[0],
-    },
     // User's avatar URL
     avatarURL: {
       type: String,
@@ -185,6 +177,15 @@ module.exports.mongodb = new Schema(
       type: Number,
       default: 0,
     },
+    driverStatus: {
+      profitRate: {
+        type: Number,
+        required: true,
+        min: config.profitRate.min,
+        max: config.profitRate.max,
+        default: config.profitRate.default,
+      },
+    },
     // User's referral code
     referral: {
       number: {
@@ -227,11 +228,6 @@ module.exports.mongodb = new Schema(
     deleted: {
       type: Boolean,
       default: false,
-    },
-    // The number of requests the user has made
-    noOfRequests: {
-      type: Number,
-      default: 0,
     },
     // The email, phone verification codes
     verification: {

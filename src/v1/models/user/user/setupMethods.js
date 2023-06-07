@@ -371,15 +371,6 @@ module.exports = (mongodbSchema) => {
     this.verification.deletion = { code: "", expiryDate: null };
   };
 
-  //////////////////////// USER'S REQUESTS ////////////////////////
-  mongodbSchema.methods.addRequest = function () {
-    this.noOfRequests = this.noOfRequests + 1;
-  };
-
-  mongodbSchema.methods.getNoOfRequests = function () {
-    return this.noOfRequests;
-  };
-
   //////////////////////// USER'S TRIPS ////////////////////////
   mongodbSchema.methods.addDriverTrip = function () {
     this.trips.asDriver += 1;
@@ -438,5 +429,10 @@ module.exports = (mongodbSchema) => {
     if (index >= 0) {
       this.savedPlaces.splice(index, 1);
     }
+  };
+
+  //////////////////////// DRIVER'S STATUS ////////////////////////
+  mongodbSchema.methods.updateProfitRate = function (profitRate) {
+    this.driverStatus.profitRate = profitRate;
   };
 };

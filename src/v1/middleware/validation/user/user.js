@@ -53,17 +53,6 @@ module.exports.validateConfirmAccountDeletion = [
   commonMiddleware.next,
 ];
 
-module.exports.validateUpdateUserRole = [
-  commonMiddleware.checkEmailOrPhone,
-  commonMiddleware.checkRole(true),
-  commonMiddleware.next,
-];
-
-module.exports.validateVerifyUser = [
-  commonMiddleware.checkEmailOrPhone,
-  commonMiddleware.next,
-];
-
 module.exports.validateFindUserByEmailOrPhone = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkEmailOrPhone,
@@ -92,13 +81,6 @@ module.exports.validatePhone = [
   commonMiddleware.next,
 ];
 
-module.exports.validateGetMostUsedUsers = [
-  commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkPage,
-  commonMiddleware.checkLimit,
-  commonMiddleware.next,
-];
-
 module.exports.validateSavePlace = [
   commonMiddleware.checkPlaceTitle,
   commonMiddleware.checkCarType,
@@ -119,5 +101,12 @@ module.exports.validateUpdateSavedPlace = [
 module.exports.validateDeleteSavedPlace = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkPlaceId,
+  commonMiddleware.next,
+];
+
+module.exports.validateUpdateDriverProfitRate = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkDriverId,
+  commonMiddleware.checkDriverProfitRate,
   commonMiddleware.next,
 ];

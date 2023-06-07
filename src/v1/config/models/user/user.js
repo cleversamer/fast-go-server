@@ -12,8 +12,6 @@ module.exports = {
   // First role in this array === default role
   roles: ["passenger", "driver", "admin"],
   registerRoles: ["passenger", "driver"],
-  // First auth type in this array === default auth type
-  authTypes: ["email", "google", "facebook", "apple"],
   verificationCode: { exactLength: 6 },
   receiverTypes: ["email", "phone"],
   maxNotificationsCount: 30,
@@ -34,4 +32,5 @@ module.exports = {
   notificationTitle: { min: 3, max: 128 },
   notificationBody: { min: 3, max: 265 },
   maxRequestsCountForInactiveUsers: 5,
+  profitRate: { min: 0, max: 1, default: 0.15 },
 };

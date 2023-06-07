@@ -52,12 +52,6 @@ const verify = (req, res, resolve, reject, rights) => async (err, user) => {
     res.locals.permission = permission;
   }
 
-  // Update user's `noOfRequests`
-  user.addRequest();
-
-  // Save user to the DB
-  await user.save();
-
   // Resolve the promise and continue
   // to the next middleware
   resolve();

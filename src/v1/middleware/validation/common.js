@@ -240,6 +240,10 @@ module.exports.checkUserId = check("userId")
   .isMongoId()
   .withMessage(errors.user.invalidId);
 
+module.exports.checkDriverId = check("driverId")
+  .isMongoId()
+  .withMessage(errors.user.invalidDriverId);
+
 module.exports.checkUserIds = (req, res, next) => {
   try {
     const { userIds } = req.body;
@@ -262,6 +266,13 @@ module.exports.checkUserIds = (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.checkDriverProfitRate = check("profitRate")
+  .isFloat({
+    min: userValidation.profitRate.min,
+    max: userValidation.profitRate.max,
+  })
+  .withMessage(errors.user.invalidProfitRate);
 
 module.exports.checkNotificationTitleEN = [
   check("titleEN")

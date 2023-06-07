@@ -3,66 +3,6 @@ const httpStatus = require("http-status");
 const { ApiError } = require("../../../middleware/apiError");
 const errors = require("../../../config/errors");
 
-module.exports.changeUserRole = async (emailOrPhone, role) => {
-  try {
-    // Check if user exists
-    const user = await this.findUserByEmailOrPhone(emailOrPhone);
-    if (!user) {
-      const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.userNotFound;
-      throw new ApiError(statusCode, message);
-    }
-
-    if (user.isAdmin()) {
-      const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.updateAdminRole;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Update user's role
-    user.updateRole(role);
-
-    // Save user to the DB
-    await user.save();
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.verifyUser = async (emailOrPhone) => {
-  try {
-    // Check if used exists
-    const user = await this.findUserByEmailOrPhone(emailOrPhone);
-    if (!user) {
-      const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.userNotFound;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Check if user's email and phone are already verified
-    if (user.isEmailVerified() && user.isPhoneEqual()) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.user.alreadyVerified;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Verify user's email
-    user.verifyEmail();
-
-    // Verify user's phone
-    user.verifyPhone();
-
-    // Save user to the DB
-    await user.save();
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
 module.exports.findUserByEmailOrPhone = async (
   emailOrPhone,
   role = "",
@@ -100,35 +40,23 @@ module.exports.findUserByEmailOrPhone = async (
   }
 };
 
-module.exports.getMostUsedUsers = async (admin, page, limit) => {
+module.exports.updateDriverProfitRate = async (driverId, profitRate) => {
   try {
-    page = parseInt(page);
-    limit = parseInt(limit);
-
-    // Decide query criteria
-    const queryCriteria = { _id: { $not: { $eq: admin._id } } };
-
-    // Find users in the given page
-    const users = await User.find(queryCriteria)
-      .sort({ noOfRequests: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
-
-    // Check if users exist
-    if (!users || !users.length) {
+    // Check if driver exists
+    const driver = await User.findById(driverId);
+    if (!driver || !driver.isDriver()) {
       const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.noUsers;
+      const message = errors.user.driverNotFound;
       throw new ApiError(statusCode, message);
     }
 
-    // Get the count of all users
-    const count = await User.count(queryCriteria);
+    // Update driver's profit rate
+    driver.updateProfitRate(profitRate);
 
-    return {
-      users,
-      currentPage: page,
-      totalPages: Math.ceil(count / limit),
-    };
+    // Save driver to the DB
+    await driver.save();
+
+    return driver;
   } catch (err) {
     throw err;
   }

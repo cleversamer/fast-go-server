@@ -7,40 +7,6 @@ const {
   notificationsService,
 } = require("../../../services");
 
-module.exports.changeUserRole = async (req, res, next) => {
-  try {
-    const { emailOrPhone, role } = req.body;
-
-    // Asking service to update user's role
-    const updatedUser = await usersService.changeUserRole(emailOrPhone, role);
-
-    // Create the response object
-    const response = _.pick(updatedUser, clientSchema);
-
-    // Send response back to the client
-    res.status(httpStatus.CREATED).json(response);
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.verifyUser = async (req, res, next) => {
-  try {
-    const { emailOrPhone } = req.body;
-
-    // Asking service to verify user's email and phone
-    const updatedUser = await usersService.verifyUser(emailOrPhone);
-
-    // Create the response object
-    const response = _.pick(updatedUser, clientSchema);
-
-    // Send response back to the client
-    res.status(httpStatus.CREATED).json(response);
-  } catch (err) {
-    next(err);
-  }
-};
-
 module.exports.findUserByEmailOrPhone = async (req, res, next) => {
   try {
     const { role, emailOrPhone } = req.query;
@@ -102,23 +68,18 @@ module.exports.sendNotification = async (req, res, next) => {
   }
 };
 
-module.exports.getMostUsedUsers = async (req, res, next) => {
+module.exports.updateDriverProfitRate = async (req, res, next) => {
   try {
-    const admin = req.user;
-    const { page, limit } = req.query;
+    const { driverId } = req.params;
+    const { profitRate } = req.body;
 
-    // Get most used users in the specified page
-    const { currentPage, totalPages, users } =
-      await usersService.getMostUsedUsers(admin, page, limit);
+    const updatedDriver = await usersService.updateDriverProfitRate(
+      driverId,
+      profitRate
+    );
 
-    // Create the response object
-    const response = {
-      currentPage,
-      totalPages,
-      users: users.map((user) => _.pick(user, clientSchema)),
-    };
+    const response = _.pick(updatedDriver, clientSchema);
 
-    // Send response back to the client
     res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);

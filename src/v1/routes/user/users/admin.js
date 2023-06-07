@@ -3,20 +3,6 @@ const { userValidator } = require("../../../middleware/validation");
 const auth = require("../../../middleware/auth");
 
 module.exports = (router) => {
-  router.patch(
-    "/admin/role/change",
-    userValidator.validateUpdateUserRole,
-    auth("updateAny", "user"),
-    usersController.changeUserRole
-  );
-
-  router.patch(
-    "/admin/user/verify",
-    userValidator.validateVerifyUser,
-    auth("updateAny", "user"),
-    usersController.verifyUser
-  );
-
   router.get(
     "/admin/user/find",
     userValidator.validateFindUserByEmailOrPhone,
@@ -25,7 +11,7 @@ module.exports = (router) => {
   );
 
   router.get(
-    "/export",
+    "/admin/export",
     auth("readAny", "user"),
     usersController.exportUsersToExcel
   );
@@ -37,10 +23,10 @@ module.exports = (router) => {
     usersController.sendNotification
   );
 
-  router.get(
-    "/usage/most",
-    userValidator.validateGetMostUsedUsers,
-    auth("readAny", "user"),
-    usersController.getMostUsedUsers
+  router.patch(
+    "/admin/:userId/profit-rate/update",
+    userValidator.validateUpdateDriverProfitRate,
+    auth("updateAny", "user"),
+    usersController.updateDriverProfitRate
   );
 };

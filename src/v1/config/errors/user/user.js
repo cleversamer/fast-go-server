@@ -3,12 +3,17 @@ const {
   notificationBody,
   referralCode,
   savedPlaceTitle,
+  profitRate,
 } = require("../../models/user/user");
 
 module.exports = Object.freeze({
   invalidId: {
     en: "Invalid user ID",
     ar: "معرّف المستخدم غير صالح",
+  },
+  invalidDriverId: {
+    en: "Invalid driver ID",
+    ar: "معرّف السائق غير صالح",
   },
   noUsers: {
     en: "User were not found",
@@ -125,5 +130,9 @@ module.exports = Object.freeze({
   invalidGender: {
     en: "Selected gender is invalid",
     ar: "الجنس الذي اخترته غير صالح",
+  },
+  invalidProfitRate: {
+    en: `Driver's profit rate must be between ${profitRate.min} and ${profitRate.max}`,
+    ar: `نسبة أرباح السائق يجب أن تتراوح بين ${profitRate.min} و ${profitRate.max}`,
   },
 });
