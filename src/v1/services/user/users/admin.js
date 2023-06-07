@@ -40,6 +40,19 @@ module.exports.findUserByEmailOrPhone = async (
   }
 };
 
+module.exports.updateAllDriversProfitRate = async (profitRate) => {
+  try {
+    await User.updateMany(
+      { role: "driver" },
+      { $set: { driverStatus: { profitRate } } }
+    );
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports.updateDriverProfitRate = async (driverId, profitRate) => {
   try {
     // Check if driver exists

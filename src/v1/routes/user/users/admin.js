@@ -23,6 +23,13 @@ module.exports = (router) => {
     usersController.sendNotification
   );
 
+  router.put(
+    "/admin/drivers/profit-rate/update",
+    userValidator.validateUpdateAllDriversProfitRate,
+    auth("updateAny", "user"),
+    usersController.updateAllDriversProfitRate
+  );
+
   router.patch(
     "/admin/:userId/profit-rate/update",
     userValidator.validateUpdateDriverProfitRate,

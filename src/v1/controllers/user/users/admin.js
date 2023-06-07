@@ -6,6 +6,7 @@ const {
   excelService,
   notificationsService,
 } = require("../../../services");
+const success = require("../../../config/success");
 
 module.exports.findUserByEmailOrPhone = async (req, res, next) => {
   try {
@@ -63,6 +64,20 @@ module.exports.sendNotification = async (req, res, next) => {
     res.status(httpStatus.OK).json(notification);
 
     await usersService.sendNotification(userIds, notification);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.updateAllDriversProfitRate = async (req, res, next) => {
+  try {
+    const { profitRate } = req.body;
+
+    await usersService.updateAllDriversProfitRate(profitRate);
+
+    const response = success.user.profitRateUpdatedForAllDrivers;
+
+    res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
   }

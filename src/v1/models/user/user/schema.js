@@ -22,7 +22,7 @@ module.exports.client = [
   "lastLogin",
 ];
 
-module.exports.mongodb = new Schema(
+const schema = new Schema(
   {
     // User's avatar URL
     avatarURL: {
@@ -274,3 +274,7 @@ module.exports.mongodb = new Schema(
     timestamps: true,
   }
 );
+
+schema.index({ role: 1 });
+
+module.exports.mongodb = schema;

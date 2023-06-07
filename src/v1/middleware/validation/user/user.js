@@ -104,6 +104,11 @@ module.exports.validateDeleteSavedPlace = [
   commonMiddleware.next,
 ];
 
+module.exports.validateUpdateAllDriversProfitRate = [
+  commonMiddleware.checkDriverProfitRate,
+  commonMiddleware.next,
+];
+
 module.exports.validateUpdateDriverProfitRate = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkDriverId,
