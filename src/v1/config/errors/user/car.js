@@ -31,4 +31,8 @@ module.exports = Object.freeze({
     en: "There're no unverified cars so far",
     ar: "لا يوجد سيّارات غير مفعّلة حتى الآن",
   },
+  noAvailableCars: {
+    en: "There're no available cars right now",
+    ar: "لا يوجد سيّارات متوفرة الآن",
+  },
 });

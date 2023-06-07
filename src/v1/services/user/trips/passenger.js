@@ -1,4 +1,4 @@
-const { User } = require("../../../models/user/user");
+const { Car } = require("../../../models/user/car");
 const { Trip } = require("../../../models/user/trip");
 const httpStatus = require("http-status");
 const errors = require("../../../config/errors");
@@ -39,11 +39,19 @@ module.exports.requestTrip = async (
 ) => {
   try {
     // TODO: Find the nearest driver to user
-    const driver = await User.findOne({ role: "driver" });
+    const car = await Car.findOne({
+      type: carType,
+    });
+
+    if (!car) {
+      const statusCode = httpStatus.NOT_FOUND;
+      const message = errors.car.noAvailableCars;
+      throw new ApiError(statusCode, message);
+    }
 
     // Create trip
     const trip = new Trip({
-      driverId: driver._id,
+      driverId: car.driver,
       passengerId: user._id,
       paymentMethod,
       carType,
@@ -60,7 +68,7 @@ module.exports.requestTrip = async (
     });
 
     // Send trip to driver in real-time
-    getIO().to(driver._id).emit("new request", trip);
+    getIO().to(car.driver).emit("new request", trip);
 
     return trip;
   } catch (err) {
