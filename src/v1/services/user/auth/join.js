@@ -22,7 +22,7 @@ module.exports.joinWithEmailAndPhone = async (
     const fullPhone = `${phoneICC}${phoneNSN}`;
 
     // Check if user exists
-    let user = await User.findOne({ "phone.full": fullPhone });
+    let user = await User.findOne({ "phone.full": fullPhone, email });
     if (user) {
       isDeleted = user.isDeleted();
 
@@ -69,6 +69,12 @@ module.exports.joinWithEmailAndPhone = async (
       isDeleted,
     };
   } catch (err) {
+    if (err.code === errors.codes.duplicateIndexKey) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.auth.emailOrPhoneUsed;
+      throw new ApiError(statusCode, message);
+    }
+
     throw err;
   }
 };
