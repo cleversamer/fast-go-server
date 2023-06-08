@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const setupCommonRoutes = require("./common");
+const setupDriverRoutes = require("./driver");
 
 const router = Router();
 
-setupCommonRoutes(router);
+setupDriverRoutes(router);
 
 module.exports = router;
