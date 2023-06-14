@@ -119,6 +119,10 @@ module.exports = Object.freeze({
     en: `Place's title must be ${savedPlaceTitle.minLength.toLocaleString()}-${savedPlaceTitle.maxLength.toLocaleString()} letters`,
     ar: `عنوان المكان يجب أن يكون بين ${savedPlaceTitle.minLength.toLocaleString()}-${savedPlaceTitle.maxLength.toLocaleString()} حرفًا`,
   },
+  invalidPlaceType: {
+    en: "Invalid place type",
+    ar: "نوع المكان غير صالح",
+  },
   invalidPlaceId: {
     en: "Invalid place ID",
     ar: "معرّف المكان غير صالح",

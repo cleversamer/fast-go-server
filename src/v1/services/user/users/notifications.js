@@ -9,40 +9,6 @@ const {
   admin: adminNotifications,
 } = require("../../../config/notifications");
 
-module.exports.notifyInactiveUsers = async () => {
-  try {
-    // Find users with unseen notifications
-    const users = await User.find({
-      noOfRequests: { $lte: userConfig.maxRequestsCountForInactiveUsers },
-      role: { $not: { $eq: "admin" } },
-    });
-
-    // Check if there are users with unseen notifications
-    if (!users || !users.length) {
-      return;
-    }
-
-    // Create the notification
-    const notification = userNotifications.inactiveUser();
-
-    // Pick only users that they haven't received this notification
-    const userIds = users
-      .filter((user) => !user.hasReceivedNotification(notification))
-      .map((user) => user._id);
-
-    // Check if there are users that they haven't received
-    // this notification yet.
-    if (!userIds || !userIds.length) {
-      return;
-    }
-
-    // Send notification to users devices
-    await this.sendNotification(userIds, notification);
-  } catch (err) {
-    return;
-  }
-};
-
 module.exports.notifyUsersWithUnseenNotifications = async () => {
   try {
     // Find users with unseen notifications
@@ -163,7 +129,6 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
       try {
         getIO().to(userId).emit("notification received", notification);
       } catch (err) {
-        console.log(err);
         throw err;
       }
     });

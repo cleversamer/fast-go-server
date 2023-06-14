@@ -27,4 +27,8 @@ module.exports = Object.freeze({
     en: "Your email has been verified successfully",
     ar: "تم تفعيل بريدك الإلكتروني بنجاح",
   },
+  joinedSocket: {
+    en: "You have joined socket server successfully",
+    ar: "You have joined socket server successfully",
+  },
 });

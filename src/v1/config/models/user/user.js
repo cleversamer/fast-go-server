@@ -3,7 +3,7 @@ module.exports = {
   lastName: { minLength: 3, maxLength: 32 },
   email: { minLength: 5, maxLength: 256 },
   phone: {
-    nsn: { minLength: 4, maxLength: 13 },
+    nsn: { exactLength: 9 },
   },
   deviceToken: { minLength: 0, maxLength: 1024, default: "" },
   // Referral code must be an even number
@@ -14,7 +14,7 @@ module.exports = {
   registerRoles: ["passenger", "driver"],
   verificationCode: { exactLength: 6 },
   receiverTypes: ["email", "phone"],
-  maxNotificationsCount: 30,
+  maxNotificationsCount: 10,
   // First value is the default value
   languages: ["ar", "en"],
   genders: ["male", "female"],
@@ -31,6 +31,5 @@ module.exports = {
   savedPlaceTitle: { minLength: 6, maxLength: 128 },
   notificationTitle: { min: 3, max: 128 },
   notificationBody: { min: 3, max: 265 },
-  maxRequestsCountForInactiveUsers: 5,
   profitRate: { min: 0, max: 1, default: 0.15 },
 };

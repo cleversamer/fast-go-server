@@ -14,13 +14,13 @@ module.exports.DATABASE_URI =
   process.env["MONGODB_URI"] ||
   `mongodb://127.0.0.1:27017/${this.DATABASE_NAME}`;
 
-module.exports.PROJECT_ID = "fast-go";
+module.exports.PROJECT_ID = "fast-go-2023";
 
-module.exports.BUCKET_NAME = "fast-go-bucket-1";
+module.exports.BUCKET_NAME = "fast-go-bucket";
 
 module.exports.MAX_FILE_UPLOAD_SIZE = 5; // In MegaBytes
 
-module.exports.MAX_REQ_BODY_SIZE = 8; // In KiloBytes
+module.exports.MAX_REQ_BODY_SIZE = 10 * 1024; // In KiloBytes
 
 module.exports.SUPPORTED_LANGUAGES = ["en", "ar"];
 

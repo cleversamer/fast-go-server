@@ -30,8 +30,8 @@ const verify = (req, res, resolve, reject, rights) => async (err, user) => {
 
   // Check if it's driver and verified
   const isVerifiedDriver =
-    requireNoDriverVerification || (user.isDriver() && user.isVerifiedDriver());
-  if (!isVerifiedDriver) {
+    requireNoDriverVerification || user.isVerifiedDriver();
+  if (user.isDriver() && !isVerifiedDriver) {
     const statusCode = httpStatus.FORBIDDEN;
     const message = errors.auth.driverNotVerified;
     return reject(new ApiError(statusCode, message));

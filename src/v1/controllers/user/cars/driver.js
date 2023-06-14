@@ -6,8 +6,11 @@ const _ = require("lodash");
 module.exports.addCar = async (req, res, next) => {
   try {
     const user = req.user;
-    const { plateNumber, productionYear, model, color } = req.body;
     const {
+      plateNumber,
+      productionYear,
+      model,
+      color,
       avatar,
       photo1,
       photo2,
@@ -17,7 +20,7 @@ module.exports.addCar = async (req, res, next) => {
       driverLicense,
       insurance,
       passport,
-    } = req.files;
+    } = req.body;
 
     const car = await carsService.addCar(
       user,

@@ -126,6 +126,14 @@ module.exports = (mongodbSchema) => {
     return this.phone.nsn;
   };
 
+  mongodbSchema.methods.updatePhoneNSN = function (phoneNSN) {
+    this.phone = {
+      full: `${this.phone.icc}${phoneNSN}`,
+      icc: this.phone.icc,
+      nsn: phoneNSN,
+    };
+  };
+
   //////////////////////// DRIVER ////////////////////////
   mongodbSchema.methods.isVerifiedDriver = function () {
     return this.verified.driver;
@@ -137,6 +145,10 @@ module.exports = (mongodbSchema) => {
 
   mongodbSchema.methods.verifyDriver = function () {
     this.verified.driver = true;
+  };
+
+  mongodbSchema.methods.toggleDriverConnected = function () {
+    this.connected = !this.connected;
   };
 
   //////////////////////// ROLE ////////////////////////
@@ -247,12 +259,8 @@ module.exports = (mongodbSchema) => {
     return this.notifications.list;
   };
 
-  mongodbSchema.methods.enableNotifications = function () {
-    this.notifications.active = true;
-  };
-
-  mongodbSchema.methods.disableNotifications = function () {
-    this.notifications.active = false;
+  mongodbSchema.methods.toggleNotifications = function () {
+    this.notifications.active = !this.notifications.active;
   };
 
   //////////////////////// REFERRAL CODE ////////////////////////
@@ -429,6 +437,15 @@ module.exports = (mongodbSchema) => {
     if (index >= 0) {
       this.savedPlaces.splice(index, 1);
     }
+  };
+
+  //////////////////////// USER'S GENDER ////////////////////////
+  mongodbSchema.methods.getGender = function () {
+    return this.gender;
+  };
+
+  mongodbSchema.methods.updateGender = function (gender) {
+    this.gender = gender;
   };
 
   //////////////////////// DRIVER'S STATUS ////////////////////////

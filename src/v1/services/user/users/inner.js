@@ -77,7 +77,7 @@ module.exports.joinSocketToUserRoom = (socketId, userId) => {
     }
 
     // Check if socket id connected
-    const userSocket = getIO().sockets.connected[socketId];
+    const userSocket = getIO().sockets.sockets.get(socketId);
 
     // Connect socket to
     if (userSocket) {

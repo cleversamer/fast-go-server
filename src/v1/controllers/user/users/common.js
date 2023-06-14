@@ -3,11 +3,12 @@ const _ = require("lodash");
 const { clientSchema } = require("../../../models/user/user");
 const { usersService, emailService } = require("../../../services");
 const success = require("../../../config/success");
+const { getIO } = require("../../../setup/socket");
 
 module.exports.authenticateUser = async (req, res, next) => {
   try {
     const user = req.user;
-    const { lang, deviceToken, socketId } = req.query;
+    const { lang, deviceToken } = req.query;
 
     const newUser = await usersService.authenticateUser(
       user,
@@ -20,21 +21,42 @@ module.exports.authenticateUser = async (req, res, next) => {
 
     // Send response back to the client
     res.status(httpStatus.OK).json(response);
-
-    // Connect user's socket to their own room
-    usersService.joinSocketToUserRoom(socketId, user._id);
   } catch (err) {
     next(err);
   }
 };
 
-module.exports.updateEmail = async (req, res, next) => {
+module.exports.joinUserToSocket = async (req, res, next) => {
   try {
     const user = req.user;
-    const { email } = req.body;
+    const { socketId } = req.query;
 
-    // Asking service to update user's profile data
-    const updatedUser = await usersService.updateEmail(user, email);
+    // Connect user's socket to their own room
+    usersService.joinSocketToUserRoom(socketId, user._id);
+
+    // Create the response object
+    const response = success.auth.joinedSocket;
+
+    // Send response back to the client
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.updateProfile = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { firstName, lastName, email, phoneNSN, gender } = req.body;
+
+    const updatedUser = await usersService.updateProfile(
+      user,
+      firstName,
+      lastName,
+      email,
+      phoneNSN,
+      gender
+    );
 
     // Create the response object
     const response = {
@@ -44,24 +66,6 @@ module.exports.updateEmail = async (req, res, next) => {
 
     // Send response back to the client
     res.status(httpStatus.CREATED).json(response);
-
-    // Construct verification email
-    const host = req.get("host");
-    const protocol =
-      host.split(":")[0] === "localhost" ? "http://" : "https://";
-    const endpoint = "/api/users/email/verify/fast";
-    const code = updatedUser.getCode("email");
-    const token = updatedUser.genAuthToken();
-    const verificationLink = `${protocol}${host}${endpoint}?code=${code}&token=${token}`;
-
-    // Send email to user
-    await emailService.sendChangeEmail(
-      updatedUser.getLanguage(),
-      updatedUser.getEmail(),
-      updatedUser.getCode("email"),
-      updatedUser.getName(),
-      verificationLink
-    );
   } catch (err) {
     next(err);
   }
@@ -70,7 +74,7 @@ module.exports.updateEmail = async (req, res, next) => {
 module.exports.updateAvatar = async (req, res, next) => {
   try {
     const user = req.user;
-    const avatar = req?.files?.avatar;
+    const avatar = req?.body?.avatar;
 
     // Asking service to remove user's avatar picture
     const newUser = await usersService.updateAvatar(user, avatar);
@@ -137,12 +141,12 @@ module.exports.clearNotifications = async (req, res, next) => {
   }
 };
 
-module.exports.disableNotifications = async (req, res, next) => {
+module.exports.toggleNotifications = async (req, res, next) => {
   try {
     const user = req.user;
 
     // Asking service to disable notifications for user
-    const updatedUser = await usersService.disableNotifications(user);
+    const updatedUser = await usersService.toggleNotifications(user);
 
     // Create the response object
     const response = _.pick(updatedUser, clientSchema);
@@ -197,7 +201,7 @@ module.exports.requestAccountDeletion = async (req, res, next) => {
     await emailService.sendAccountDeletionCodeEmail(
       newUser.getLanguage(),
       newUser.getEmail(),
-      newUser.getName(),
+      newUser.getFullName(),
       deletionLink
     );
   } catch (err) {
@@ -218,11 +222,13 @@ module.exports.confirmAccountDeletion = async (req, res, next) => {
     // Send response back to the client
     res.status(httpStatus.OK).send(response);
 
+    getIO().to(user._id.toString()).emit("account deleted", null);
+
     // Send an email to the user
     await emailService.sendAccountDeletedEmail(
       user.getLanguage(),
       user.getEmail(),
-      user.getName()
+      user.getFullName()
     );
   } catch (err) {
     next(err);
@@ -269,7 +275,7 @@ module.exports.resendEmailOrPhoneVerificationCode =
           newUser.getLanguage(),
           newUser.getEmail(),
           code,
-          newUser.getName(),
+          newUser.getFullName(),
           verificationLink
         );
       } else {
@@ -300,7 +306,7 @@ module.exports.verifyEmailOrPhone = (key) => async (req, res, next) => {
       await emailService.sendEmailVerifiedEmail(
         user.getLanguage(),
         user.getEmail(),
-        user.getName()
+        user.getFullName()
       );
     } else {
       // TODO: send an SMS message to user's phone
@@ -326,22 +332,8 @@ module.exports.verifyEmailByLink = async (req, res, next) => {
     await emailService.sendEmailVerifiedEmail(
       user.getLanguage(),
       user.getEmail(),
-      user.getName()
+      user.getFullName()
     );
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.getMySavedPlaces = async (req, res, next) => {
-  try {
-    const user = req.user;
-
-    const savedPlaces = await usersService.getMySavedPlaces(user);
-
-    const response = { savedPlaces };
-
-    res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
   }

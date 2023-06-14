@@ -20,7 +20,6 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
       role,
       referralCode,
       deviceToken,
-      socketId,
     } = req.body;
 
     // Find user with provided credentials
@@ -53,9 +52,6 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
         user.getFullName()
       );
     }
-
-    // Connect user's socket to their own room
-    usersService.joinSocketToUserRoom(socketId, user._id);
 
     // Apply referral code
     await usersService.applyReferralCode(user, referralCode);

@@ -11,14 +11,16 @@ module.exports.validateAuthenticateUser = [
   commonMiddleware.next,
 ];
 
-module.exports.validateUpdateEmail = [
-  commonMiddleware.checkEmail,
+module.exports.validateUpdateProfile = [
+  commonMiddleware.conditionalCheck(
+    "firstName",
+    commonMiddleware.checkFirstName
+  ),
+  commonMiddleware.conditionalCheck("lastName", commonMiddleware.checkLastName),
+  commonMiddleware.conditionalCheck("email", commonMiddleware.checkEmail),
+  commonMiddleware.conditionalCheck("phoneNSN", commonMiddleware.checkPhoneNSN),
+  commonMiddleware.conditionalCheck("gender", commonMiddleware.checkGender),
   commonMiddleware.next,
-  commonMiddleware.limitUpdateEmail,
-];
-
-module.exports.validateUpdateAvatar = [
-  commonMiddleware.checkFile("avatar", server.SUPPORTED_PHOTO_EXTENSIONS, true),
 ];
 
 ////////////////////////////////////////////////////////////
@@ -83,7 +85,7 @@ module.exports.validatePhone = [
 
 module.exports.validateSavePlace = [
   commonMiddleware.checkPlaceTitle,
-  commonMiddleware.checkCarType,
+  commonMiddleware.checkPlaceType,
   commonMiddleware.checkLongitude,
   commonMiddleware.checkLatitude,
   commonMiddleware.next,
@@ -92,7 +94,7 @@ module.exports.validateSavePlace = [
 module.exports.validateUpdateSavedPlace = [
   commonMiddleware.putQueryParamsInBody,
   commonMiddleware.checkPlaceId,
-  commonMiddleware.checkCarType,
+  commonMiddleware.checkPlaceType,
   commonMiddleware.checkLongitude,
   commonMiddleware.checkLatitude,
   commonMiddleware.next,

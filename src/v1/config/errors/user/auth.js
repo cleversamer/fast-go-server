@@ -4,6 +4,7 @@ const {
   verificationCode,
   firstName,
   lastName,
+  phone,
 } = require("../../../config/models/user/user");
 
 module.exports = Object.freeze({
@@ -70,6 +71,10 @@ module.exports = Object.freeze({
   invalidICC: {
     en: "Invalid country code",
     ar: "رمز مقدمة الدولة غير صالح",
+  },
+  invalidNSN: {
+    en: `Phone number must be ${phone.nsn.minLength} digits`,
+    ar: `رقم الهاتف يجب أن يكون ${phone.nsn.exactLength} رقمًا`,
   },
   phoneNotOnlyNumbers: {
     en: "Phone number must contain numbers only",

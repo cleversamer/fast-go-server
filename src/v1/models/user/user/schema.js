@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema, Types } = require("mongoose");
 const { user: config } = require("../../../config/models");
 const countriesData = require("../../../data/countries");
 
@@ -15,6 +15,8 @@ module.exports.client = [
   "savedPlaces",
   "display",
   "verified",
+  "connected",
+  "carId",
   "notifications",
   "balance",
   "referral",
@@ -158,6 +160,15 @@ const schema = new Schema(
         default: false,
       },
     },
+    connected: {
+      type: Boolean,
+      default: false,
+    },
+    carId: {
+      type: Types.ObjectId,
+      ref: "Car",
+      default: null,
+    },
     // The notifications of the user
     notifications: {
       active: {
@@ -276,5 +287,6 @@ const schema = new Schema(
 );
 
 schema.index({ role: 1 });
+schema.index({ "referral.code": 1 });
 
 module.exports.mongodb = schema;

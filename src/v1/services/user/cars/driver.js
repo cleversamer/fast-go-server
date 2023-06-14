@@ -22,14 +22,14 @@ module.exports.addCar = async (
 ) => {
   try {
     // Check if the driver has added a car before
-    const driverCars = await Car.count({ driver: driver._id });
-    if (driverCars > 0) {
+    if (user.carId) {
       const statusCode = httpStatus.FORBIDDEN;
       const message = errors.user.addedCarBefore;
       throw new ApiError(statusCode, message);
     }
 
     const photos = {
+      avatar,
       photo1,
       photo2,
       photo3,
@@ -39,11 +39,6 @@ module.exports.addCar = async (
       insurance,
       passport,
     };
-
-    // Check if driver has an avatar
-    if (!driver.getAvatarURL()) {
-      photos["avatar"] = avatar;
-    }
 
     // Upload photos to the storage bucket
     const photoURLs = {};
@@ -59,12 +54,6 @@ module.exports.addCar = async (
 
       photoURLs[key] = cloudPhotoURL;
     });
-
-    // Check if driver has an avatar
-    if (!driver.getAvatarURL()) {
-      driver.updateAvatarURL(photoURLs.avatar);
-      await driver.save();
-    }
 
     // Create new car for the driver
     const car = new Car({
@@ -89,6 +78,11 @@ module.exports.addCar = async (
 
     // Save car to the DB
     await car.save();
+
+    // Update driver
+    driver.updateAvatarURL(photoURLs.avatar);
+    driver.carId = car._id;
+    await driver.save();
 
     return car;
   } catch (err) {

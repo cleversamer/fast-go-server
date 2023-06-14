@@ -136,10 +136,10 @@ module.exports.checkPhoneNSN = check("phoneNSN")
   .isNumeric()
   .withMessage(errors.auth.invalidPhone)
   .isLength({
-    min: countries.minNSN,
-    max: countries.maxNSN,
+    min: userValidation.phone.nsn.exactLength,
+    max: userValidation.phone.nsn.exactLength,
   })
-  .withMessage(errors.auth.invalidPhone);
+  .withMessage(errors.auth.invalidNSN);
 
 module.exports.conditionalCheck = (key, checker) => (req, res, next) =>
   req.body[key] ? checker(req, res, next) : next();
@@ -282,7 +282,7 @@ module.exports.checkNotificationTitleEN = [
     })
     .withMessage(errors.user.invalidNotificationTitle),
 
-  checkTextLanguage("titleEN", "en", errors.notification.invalidTitleEN),
+  // checkTextLanguage("titleEN", "en", errors.notification.invalidTitleEN),
 ];
 
 module.exports.checkNotificationTitleAR = [
@@ -293,7 +293,7 @@ module.exports.checkNotificationTitleAR = [
     })
     .withMessage(errors.user.invalidNotificationTitle),
 
-  checkTextLanguage("titleAR", "ar", errors.notification.invalidTitleAR),
+  // checkTextLanguage("titleAR", "ar", errors.notification.invalidTitleAR),
 ];
 
 module.exports.checkNotificationBodyEN = [
@@ -304,7 +304,7 @@ module.exports.checkNotificationBodyEN = [
     })
     .withMessage(errors.user.invalidNotificationBody),
 
-  checkTextLanguage("bodyEN", "en", errors.notification.invalidBodyEN),
+  // checkTextLanguage("bodyEN", "en", errors.notification.invalidBodyEN),
 ];
 
 module.exports.checkNotificationBodyAR = [
@@ -315,7 +315,7 @@ module.exports.checkNotificationBodyAR = [
     })
     .withMessage(errors.user.invalidNotificationBody),
 
-  checkTextLanguage("bodyAR", "ar", errors.notification.invalidBodyAR),
+  // checkTextLanguage("bodyAR", "ar", errors.notification.invalidBodyAR),
 ];
 
 module.exports.checkSendTo = check("sendTo")
@@ -384,6 +384,10 @@ module.exports.checkPlaceTitle = check("title")
     max: userValidation.savedPlaceTitle.maxLength,
   })
   .withMessage(errors.user.invalidPlaceTitle);
+
+module.exports.checkPlaceType = check("type")
+  .isIn(userValidation.savedPlaceTypes)
+  .withMessage(errors.user.invalidPlaceType);
 
 module.exports.checkFromPlaceTitle = check("fromTitle")
   .isLength({
@@ -495,7 +499,7 @@ module.exports.limitSendEmailVerificationCode = rateLimit({
   // Limit duration in milliseconds
   windowMs: 1000 * 60 * 30, // 30 minutes
   // Number of requests allowed for the above duration
-  max: 2, // 2 requests allowed per 30 minutes
+  max: 2 * 256, // 2 requests allowed per 30 minutes
   message: {
     status: "error",
     statusCode: httpStatus.TOO_MANY_REQUESTS,
@@ -507,7 +511,7 @@ module.exports.limitSendPhoneVerificationCode = rateLimit({
   // Limit duration in milliseconds
   windowMs: 1000 * 60 * 30, // 30 minutes
   // Number of requests allowed for the above duration
-  max: 1, // 1 request allowed per 30 minutes
+  max: 1 * 256, // 1 request allowed per 30 minutes
   message: {
     status: "error",
     statusCode: httpStatus.TOO_MANY_REQUESTS,
@@ -519,7 +523,7 @@ module.exports.limitSendAccountDeletionCode = rateLimit({
   // Limit duration in milliseconds
   windowMs: 1000 * 60 * 30, // 30 minutes
   // Number of requests allowed for the above duration
-  max: 2, // 2 requests allowed per 30 minutes
+  max: 2 * 256, // 2 requests allowed per 30 minutes
   message: {
     status: "error",
     statusCode: httpStatus.TOO_MANY_REQUESTS,
@@ -531,7 +535,7 @@ module.exports.limitUpdateEmail = rateLimit({
   // Limit duration in milliseconds
   windowMs: 1000 * 60 * 30, // 30 minutes
   // Number of requests allowed for the above duration
-  max: 2, // 2 requests allowed per 30 minutes
+  max: 2 * 256, // 2 requests allowed per 30 minutes
   message: {
     status: "error",
     statusCode: httpStatus.TOO_MANY_REQUESTS,
@@ -543,7 +547,7 @@ module.exports.limitUpdatePhone = rateLimit({
   // Limit duration in milliseconds
   windowMs: 1000 * 60 * 30, // 30 minutes
   // Number of requests allowed for the above duration
-  max: 1, // 1 request allowed per 30 minutes
+  max: 1 * 256, // 1 request allowed per 30 minutes
   message: {
     status: "error",
     statusCode: httpStatus.TOO_MANY_REQUESTS,
@@ -555,7 +559,7 @@ module.exports.limitJoin = rateLimit({
   // Limit duration in milliseconds
   windowMs: 1000 * 60 * 60 * 24, // 1 day
   // Number of requests allowed for the above duration
-  max: 10, // 10 requests a day allowed
+  max: 10 * 256, // 10 requests a day allowed
   message: {
     status: "error",
     statusCode: httpStatus.TOO_MANY_REQUESTS,

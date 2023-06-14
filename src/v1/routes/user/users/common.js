@@ -7,21 +7,26 @@ module.exports = (router) => {
   router.get(
     "/authenticate",
     userValidator.validateAuthenticateUser,
-    auth("readOwn", "user", true),
+    auth("readOwn", "user", true, true),
     usersController.authenticateUser
+  );
+
+  router.get(
+    "/socket/join",
+    auth("readOwn", "user"),
+    usersController.joinUserToSocket
   );
 
   //////////////////// PROFILE ////////////////////
   router.patch(
-    "/profile/email/update",
-    userValidator.validateUpdateEmail,
+    "/profile/update",
+    userValidator.validateUpdateProfile,
     auth("updateOwn", "user"),
-    usersController.updateEmail
+    usersController.updateProfile
   );
 
   router.patch(
     "/profile/avatar/update",
-    userValidator.validateUpdateAvatar,
     auth("updateOwn", "user"),
     usersController.updateAvatar
   );
@@ -46,22 +51,16 @@ module.exports = (router) => {
   );
 
   router.patch(
-    "/notifications/disable",
+    "/notifications/toggle",
     auth("updateOwn", "notification"),
-    usersController.disableNotifications
-  );
-
-  router.patch(
-    "/notifications/enable",
-    auth("updateOwn", "notification"),
-    usersController.enableNotifications
+    usersController.toggleNotifications
   );
 
   //////////////////// ACCOUNT DELETION ////////////////////
   router.get(
     "/account/deletion/request",
-    userValidator.validateRequestAccountDeletion,
     auth("deleteOwn", "user", true),
+    userValidator.validateRequestAccountDeletion,
     usersController.requestAccountDeletion
   );
 
@@ -106,12 +105,6 @@ module.exports = (router) => {
     );
 
   //////////////////// SAVED PLACES ////////////////////
-  router.get(
-    "/places/my",
-    auth("readOwn", "savedPlace"),
-    usersController.getMySavedPlaces
-  );
-
   router.post(
     "/places/add",
     userValidator.validateSavePlace,

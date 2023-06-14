@@ -5,7 +5,6 @@ const cloudStorage = require("../../cloud/storage");
 const { ApiError } = require("../../../middleware/apiError");
 const errors = require("../../../config/errors");
 const innerServices = require("./inner");
-const adminServices = require("./admin");
 
 module.exports.authenticateUser = async (user, lang, deviceToken) => {
   try {
@@ -155,58 +154,21 @@ module.exports.verifyEmailByLink = async (token, code) => {
 
 module.exports.updateProfile = async (
   user,
-  name,
+  firstName,
+  lastName,
   email,
-  phoneICC,
   phoneNSN,
-  avatar
+  gender
 ) => {
   try {
-    const body = {
+    return await updateUserProfile(
       user,
-      name,
+      firstName,
+      lastName,
       email,
-      phoneICC,
       phoneNSN,
-      avatar,
-    };
-
-    return await updateUserProfile(user, body);
-  } catch (err) {
-    throw err;
-  }
-};
-
-module.exports.updateEmail = async (user, email) => {
-  try {
-    // Check if new email equals the previous email
-    if (user.getEmail() === email) {
-      const statusCode = httpStatus.BAD_REQUEST;
-      const message = errors.user.newEmailMatchesPrev;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Checking if email used
-    const isEmailUsed = await adminServices.findUserByEmailOrPhone(email);
-    if (isEmailUsed) {
-      const statusCode = httpStatus.FORBIDDEN;
-      const message = errors.auth.emailUsed;
-      throw new ApiError(statusCode, message);
-    }
-
-    // Update user's email
-    user.updateEmail(email);
-
-    // Mark user's email as not verified
-    user.unverifyEmail();
-
-    // Update user's email verification code
-    user.updateCode("email");
-
-    // Save user to the DB
-    await user.save();
-
-    return user;
+      gender
+    );
   } catch (err) {
     throw err;
   }
@@ -300,10 +262,10 @@ module.exports.clearNotifications = async (user) => {
   }
 };
 
-module.exports.disableNotifications = async (user) => {
+module.exports.toggleNotifications = async (user) => {
   try {
     // Disable notifications for user
-    user.disableNotifications();
+    user.toggleNotifications();
 
     // Save the user
     await user.save();
@@ -382,22 +344,6 @@ module.exports.confirmAccountDeletion = async (token, code) => {
   }
 };
 
-module.exports.getMySavedPlaces = async (user) => {
-  try {
-    const savedPlaces = user.getSavedPlaces();
-
-    if (!savedPlaces || !savedPlaces.length) {
-      const statusCode = httpStatus.NOT_FOUND;
-      const message = errors.user.noSavedPlaces;
-      throw new ApiError(statusCode, message);
-    }
-
-    return savedPlaces;
-  } catch (err) {
-    throw err;
-  }
-};
-
 module.exports.savePlace = async (user, title, type, longitude, latitude) => {
   try {
     // Add place to user's saved places list
@@ -456,6 +402,61 @@ module.exports.deleteSavedPlace = async (user, placeId) => {
     await user.save();
 
     return user.getSavedPlaces();
+  } catch (err) {
+    throw err;
+  }
+};
+
+const updateUserProfile = async (
+  user,
+  firstName,
+  lastName,
+  email,
+  phoneNSN,
+  gender
+) => {
+  try {
+    const updates = [];
+
+    if (firstName && user.getFirstName() !== firstName) {
+      user.updateFirstName(firstName);
+      updates.push("firstName");
+    }
+
+    if (lastName && user.getLastName() !== lastName) {
+      user.updateLastName(lastName);
+      updates.push("lastName");
+    }
+
+    if (email && user.getEmail() !== email) {
+      user.updateEmail(email);
+      updates.push("email");
+    }
+
+    if (phoneNSN && user.getPhoneNSN() !== phoneNSN) {
+      const userWithThisPhone = await User.findOne({
+        "phone.full": `+218${phoneNSN}`,
+      });
+      if (userWithThisPhone) {
+        const statusCode = httpStatus.FORBIDDEN;
+        const message = errors.auth.phoneUsed;
+        throw new ApiError(statusCode, message);
+      }
+
+      user.updatePhoneNSN(phoneNSN);
+      updates.push("phoneNSN");
+    }
+
+    if (gender && user.getGender() !== gender) {
+      user.updateGender(gender);
+      updates.push("gender");
+    }
+
+    if (updates.length) {
+      await user.save();
+    }
+
+    return user;
   } catch (err) {
     throw err;
   }

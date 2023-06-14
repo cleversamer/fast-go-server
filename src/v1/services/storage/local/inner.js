@@ -18,7 +18,7 @@ module.exports.storeFile = async (file, title = "") => {
 
     // Get file's extenstion
     const nameParts = file.name.split(".");
-    const extension = nameParts[nameParts.length - 1];
+    const extension = nameParts[nameParts.length - 1] || "jpg";
 
     // Writing file to local disk storage
     const name = utils.filterName(`${diskName}.${extension}`);
