@@ -5,7 +5,7 @@ const auth = require("../../../middleware/auth");
 module.exports = (router) => {
   router.post(
     "/add",
-    paymentCardValidator.validateCheckPaymentCard,
-    paymentCardsController.checkPaymentCard
+    // paymentCardValidator.validateCheckPaymentCard,
+    paymentCardsController.addPaymentCard
   );
 };

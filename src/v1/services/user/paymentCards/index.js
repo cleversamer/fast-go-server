@@ -1,5 +1,7 @@
-const commonServices = require("./common");
+const driverServices = require("./driver");
+const adminServices = require("./admin");
 
 module.exports = {
-  ...commonServices,
+  ...driverServices,
+  ...adminServices,
 };

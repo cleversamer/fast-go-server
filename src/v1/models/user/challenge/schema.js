@@ -1,49 +1,33 @@
-const { Schema, Types } = require("mongoose");
+const { Schema } = require("mongoose");
+const { user: userConfig } = require("../../../config/models");
 
 module.exports.client = [
   "_id",
-  "userId",
-  "description",
+  "role",
   "reward",
-  "target",
-  "progress",
-  "completed",
+  "referralTarget",
+  "tripTarget",
 ];
 
 const schema = new Schema(
   {
-    userId: {
-      type: Types.ObjectId,
-      ref: "User",
+    role: {
+      type: String,
+      enum: userConfig.roles.filter((r) => r !== "admin"),
       required: true,
-    },
-    description: {
-      en: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      ar: {
-        type: String,
-        required: true,
-        trim: true,
-      },
+      trim: true,
     },
     reward: {
       type: Number,
       required: true,
     },
-    target: {
+    referralTarget: {
       type: Number,
       required: true,
     },
-    progress: {
+    tripTarget: {
       type: Number,
       default: 0,
-    },
-    completed: {
-      type: Boolean,
-      default: false,
     },
   },
   {
@@ -54,7 +38,5 @@ const schema = new Schema(
     timestamps: true,
   }
 );
-
-schema.index({ userId: 1 });
 
 module.exports.mongodb = schema;
