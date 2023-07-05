@@ -74,3 +74,30 @@ module.exports.updateDriverProfitRate = async (driverId, profitRate) => {
     throw err;
   }
 };
+
+module.exports.getDriversStats = async () => {
+  try {
+    const pendingDriversNo = await User.countDocuments({
+      role: "driver",
+      "verified.driver": false,
+    });
+
+    const activeDriversNo = await User.countDocuments({
+      role: "driver",
+      "driverStatus.active": true,
+    });
+
+    const verifiedDriversNo = await User.countDocuments({
+      role: "driver",
+      "verified.driver": true,
+    });
+
+    return {
+      pendingDriversNo,
+      activeDriversNo,
+      verifiedDriversNo,
+    };
+  } catch (err) {
+    throw err;
+  }
+};

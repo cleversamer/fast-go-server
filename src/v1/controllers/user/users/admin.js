@@ -5,6 +5,7 @@ const {
   usersService,
   excelService,
   notificationsService,
+  tripsService,
 } = require("../../../services");
 const success = require("../../../config/success");
 
@@ -94,6 +95,23 @@ module.exports.updateDriverProfitRate = async (req, res, next) => {
     );
 
     const response = _.pick(updatedDriver, clientSchema);
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getDriversStats = async (req, res, next) => {
+  try {
+    const driversStats = await usersService.getDriversStats();
+
+    const noOfTrips = await tripsService.getTripsStats();
+
+    const response = {
+      ...driversStats,
+      ...noOfTrips,
+    };
 
     res.status(httpStatus.OK).json(response);
   } catch (err) {

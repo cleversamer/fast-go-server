@@ -36,4 +36,10 @@ module.exports = (router) => {
     auth("updateAny", "user"),
     usersController.updateDriverProfitRate
   );
+
+  router.get(
+    "/admin/stats",
+    auth("readAny", "user"),
+    usersController.getDriversStats
+  );
 };

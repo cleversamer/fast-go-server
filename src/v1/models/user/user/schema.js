@@ -188,7 +188,12 @@ const schema = new Schema(
       type: Number,
       default: 0,
     },
+    // Driver's status
     driverStatus: {
+      active: {
+        type: Boolean,
+        default: false,
+      },
       profitRate: {
         type: Number,
         required: true,
@@ -288,5 +293,10 @@ const schema = new Schema(
 
 schema.index({ role: 1 });
 schema.index({ "referral.code": 1 });
+schema.index({ "driverStatus.active": 1 });
+schema.index(
+  { role: 1, "verified.driver": 1 },
+  { partialFilterExpression: { role: "driver" } }
+);
 
 module.exports.mongodb = schema;
