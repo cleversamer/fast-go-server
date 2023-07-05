@@ -101,3 +101,41 @@ module.exports.getDriversStats = async () => {
     throw err;
   }
 };
+
+module.exports.getAllDrivers = async (filter, page, limit) => {
+  try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    switch (filter) {
+      case "all":
+        return await User.find({ role: "driver" })
+          .sort({ _id: -1 })
+          .skip((page - 1) * limit)
+          .limit(limit);
+
+      case "pending":
+        return await User.find({
+          role: "driver",
+          "verified.driver": false,
+        })
+          .sort({ _id: -1 })
+          .skip((page - 1) * limit)
+          .limit(limit);
+
+      case "rejected":
+        return await User.find({
+          role: "driver",
+          "driverStatus.rejected": true,
+        })
+          .sort({ _id: -1 })
+          .skip((page - 1) * limit)
+          .limit(limit);
+
+      default:
+        return [];
+    }
+  } catch (err) {
+    throw err;
+  }
+};

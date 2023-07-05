@@ -118,3 +118,25 @@ module.exports.getDriversStats = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.getAllDrivers = async (req, res, next) => {
+  try {
+    const { driverStatus, page, limit } = req.query;
+
+    const inverifiedDrivers = await usersService.getAllDrivers(
+      driverStatus,
+      page,
+      limit
+    );
+
+    const response = {
+      inverifiedDrivers: inverifiedDrivers.map((driver) =>
+        _.pick(driver, clientSchema)
+      ),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

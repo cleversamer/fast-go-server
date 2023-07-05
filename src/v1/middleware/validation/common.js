@@ -274,6 +274,10 @@ module.exports.checkDriverProfitRate = check("profitRate")
   })
   .withMessage(errors.user.invalidProfitRate);
 
+module.exports.checkDriverStatus = check("driverStatus")
+  .isIn(userValidation.driverStatuses)
+  .withMessage(errors.user.invalidDriverStatus);
+
 module.exports.checkNotificationTitleEN = [
   check("titleEN")
     .isLength({

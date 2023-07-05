@@ -117,3 +117,11 @@ module.exports.validateUpdateDriverProfitRate = [
   commonMiddleware.checkDriverProfitRate,
   commonMiddleware.next,
 ];
+
+module.exports.validateGetAllDrivers = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkDriverStatus,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
+  commonMiddleware.next,
+];

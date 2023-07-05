@@ -23,13 +23,6 @@ module.exports = (router) => {
     usersController.sendNotification
   );
 
-  router.put(
-    "/admin/drivers/profit-rate/update",
-    userValidator.validateUpdateAllDriversProfitRate,
-    auth("updateAny", "user"),
-    usersController.updateAllDriversProfitRate
-  );
-
   router.patch(
     "/admin/:userId/profit-rate/update",
     userValidator.validateUpdateDriverProfitRate,
@@ -37,9 +30,24 @@ module.exports = (router) => {
     usersController.updateDriverProfitRate
   );
 
+  //////////////////// DRIVERS ////////////////////
+  router.put(
+    "/admin/drivers/profit-rate/update",
+    userValidator.validateUpdateAllDriversProfitRate,
+    auth("updateAny", "user"),
+    usersController.updateAllDriversProfitRate
+  );
+
   router.get(
     "/admin/stats",
     auth("readAny", "user"),
     usersController.getDriversStats
+  );
+
+  router.get(
+    "/admin/drivers/get",
+    userValidator.validateGetAllDrivers,
+    auth("readAny", "user"),
+    usersController.getAllDrivers
   );
 };

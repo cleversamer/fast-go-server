@@ -148,7 +148,7 @@ module.exports = (mongodbSchema) => {
   };
 
   mongodbSchema.methods.toggleDriverConnected = function () {
-    this.connected = !this.connected;
+    this.driverStatus.active = !this.driverStatus.active;
   };
 
   //////////////////////// ROLE ////////////////////////

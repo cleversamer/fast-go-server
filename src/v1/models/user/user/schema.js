@@ -15,10 +15,10 @@ module.exports.client = [
   "savedPlaces",
   "display",
   "verified",
-  "connected",
   "carId",
   "notifications",
   "balance",
+  "driverStatus",
   "referral",
   "trips",
   "lastLogin",
@@ -160,10 +160,6 @@ const schema = new Schema(
         default: false,
       },
     },
-    connected: {
-      type: Boolean,
-      default: false,
-    },
     carId: {
       type: Types.ObjectId,
       ref: "Car",
@@ -200,6 +196,10 @@ const schema = new Schema(
         min: config.profitRate.min,
         max: config.profitRate.max,
         default: config.profitRate.default,
+      },
+      rejected: {
+        type: Boolean,
+        default: false,
       },
     },
     // User's referral code
@@ -296,6 +296,10 @@ schema.index({ "referral.code": 1 });
 schema.index({ "driverStatus.active": 1 });
 schema.index(
   { role: 1, "verified.driver": 1 },
+  { partialFilterExpression: { role: "driver" } }
+);
+schema.index(
+  { role: 1, "driverStatus.rejected": 1 },
   { partialFilterExpression: { role: "driver" } }
 );
 

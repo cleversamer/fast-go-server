@@ -139,4 +139,8 @@ module.exports = Object.freeze({
     en: `Driver's profit rate must be between ${profitRate.min} and ${profitRate.max}`,
     ar: `نسبة أرباح السائق يجب أن تتراوح بين ${profitRate.min} و ${profitRate.max}`,
   },
+  invalidDriverStatus: {
+    en: "Invalid driver status",
+    ar: "الفلتر الذي اخترته غير صالح",
+  },
 });

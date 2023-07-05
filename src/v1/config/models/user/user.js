@@ -32,4 +32,5 @@ module.exports = {
   notificationTitle: { min: 3, max: 128 },
   notificationBody: { min: 3, max: 265 },
   profitRate: { min: 0, max: 1, default: 0.15 },
+  driverStatuses: ["all", "pending", "rejected"],
 };
