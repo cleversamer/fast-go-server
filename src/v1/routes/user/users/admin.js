@@ -30,6 +30,14 @@ module.exports = (router) => {
     usersController.updateDriverProfitRate
   );
 
+  //////////////////// PASSENGERS ////////////////////
+  router.get(
+    "/admin/passengers/get",
+    userValidator.validateGetAllPassengers,
+    auth("readAny", "user"),
+    usersController.getAllPassengers
+  );
+
   //////////////////// DRIVERS ////////////////////
   router.put(
     "/admin/drivers/profit-rate/update",

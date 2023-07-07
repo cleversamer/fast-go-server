@@ -140,3 +140,21 @@ module.exports.getAllDrivers = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.getAllPassengers = async (req, res, next) => {
+  try {
+    const { page, limit } = req.query;
+
+    const passengers = await usersService.getAllPassengers(page, limit);
+
+    const response = {
+      passengers: passengers.map((passenger) =>
+        _.pick(passenger, clientSchema)
+      ),
+    };
+
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};

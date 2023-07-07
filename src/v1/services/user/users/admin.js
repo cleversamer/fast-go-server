@@ -139,3 +139,17 @@ module.exports.getAllDrivers = async (filter, page, limit) => {
     throw err;
   }
 };
+
+module.exports.getAllPassengers = async (page, limit) => {
+  try {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    return await User.find({ role: "passenger" })
+      .sort({ _id: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+  } catch (err) {
+    throw err;
+  }
+};

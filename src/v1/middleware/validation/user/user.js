@@ -125,3 +125,10 @@ module.exports.validateGetAllDrivers = [
   commonMiddleware.checkLimit,
   commonMiddleware.next,
 ];
+
+module.exports.validateGetAllPassengers = [
+  commonMiddleware.putQueryParamsInBody,
+  commonMiddleware.checkPage,
+  commonMiddleware.checkLimit,
+  commonMiddleware.next,
+];
