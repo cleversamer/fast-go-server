@@ -14,3 +14,4 @@ module.exports.cloudStorage = require("./cloud/storage");
 
 module.exports.scheduleService = require("./system/schedule");
 module.exports.serverErrorsService = require("./system/serverErrors");
+module.exports.tripPricingsService = require("./system/tripPricings");

@@ -11,6 +11,7 @@ const {
   car: carValidation,
   paymentCard: paymentCardValidation,
   trip: tripValidation,
+  tripPricing: tripPricingValidation,
 } = require("../../config/models");
 const { isValidObjectId } = require("mongoose");
 
@@ -497,6 +498,38 @@ module.exports.checkTripId = check("tripId")
 module.exports.checkTripPaymentMethod = check("paymentMethod")
   .isIn(tripValidation.paymentMethods)
   .withMessage(errors.trip.invalidPaymentMethod);
+
+module.exports.checkTripPricingId = check("tripPricingId")
+  .isMongoId()
+  .withMessage(errors.tripPricing.invalidId);
+
+module.exports.checkTripPricingDistanceFrom = check("distanceFrom")
+  .isInt({
+    min: tripPricingValidation.distanceFrom.min,
+    max: tripPricingValidation.distanceFrom.max,
+  })
+  .withMessage(errors.tripPricing.invalidDistanceFrom);
+
+module.exports.checkTripPricingDistanceTo = check("distanceTo")
+  .isInt({
+    min: tripPricingValidation.distanceTo.min,
+    max: tripPricingValidation.distanceTo.max,
+  })
+  .withMessage(errors.tripPricing.invalidDistanceTo);
+
+module.exports.checkTripPricingKmPrice = check("pricePerKm")
+  .isFloat({
+    min: tripPricingValidation.pricePerKm.min,
+    max: tripPricingValidation.pricePerKm.max,
+  })
+  .withMessage(errors.tripPricing.invalidPricePerKm);
+
+module.exports.checkTripPricingDoorOpeningPrice = check("doorOpeningPrice")
+  .isFloat({
+    min: tripPricingValidation.doorOpeningPrice.min,
+    max: tripPricingValidation.doorOpeningPrice.max,
+  })
+  .withMessage(errors.tripPricing.invalidDoorOpeningPrice);
 
 //////////////////// RATE LIMIT ////////////////////
 module.exports.limitSendEmailVerificationCode = rateLimit({

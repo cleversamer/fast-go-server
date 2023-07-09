@@ -6,3 +6,4 @@ module.exports.paymentCardsController = require("./user/paymentCards");
 module.exports.carsController = require("./user/cars");
 
 module.exports.errorsController = require("./system/errors");
+module.exports.tripPricingsController = require("./system/tripPricings");

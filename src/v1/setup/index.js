@@ -11,6 +11,7 @@ const {
 const passport = require("passport");
 const { jwtStrategy } = require("../middleware/passport");
 const setupScheduling = require("./scheduling");
+const setupDBConfigData = require("./dbConfigData");
 
 module.exports = (app) => {
   setupMongoDB();
@@ -29,4 +30,5 @@ module.exports = (app) => {
   socket.init(expressServer);
 
   setupScheduling();
+  setupDBConfigData();
 };

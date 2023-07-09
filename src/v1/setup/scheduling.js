@@ -1,11 +1,17 @@
 const { usersService, scheduleService } = require("../services");
 
 module.exports = () => {
-  scheduleService.scheduleDailyEvent(async () => {
-    await usersService.notifyUsersWithUnseenNotifications();
-  });
+  try {
+    scheduleService.scheduleDailyEvent(async () => {
+      try {
+        await usersService.notifyUsersWithUnseenNotifications();
+      } catch (err) {}
+    });
 
-  scheduleService.scheduleHourlyEvent(async () => {
-    await usersService.notifyAdminsWithServerErrors();
-  });
+    scheduleService.scheduleHourlyEvent(async () => {
+      try {
+        await usersService.notifyAdminsWithServerErrors();
+      } catch (err) {}
+    });
+  } catch (err) {}
 };
