@@ -6,7 +6,8 @@ const challengesRoute = require("./user/challenges");
 const paymentCardsRoute = require("./user/paymentCards");
 const carsRoute = require("./user/cars");
 const errorsRoute = require("./system/errors");
-const tripPricingRoute = require("./system/tripPricing");
+const tripPricingsRoute = require("./system/tripPricings");
+const couponCodesRoute = require("./system/couponCodes");
 
 const routes = [
   {
@@ -39,7 +40,11 @@ const routes = [
   },
   {
     path: "/trips/pricing",
-    route: tripPricingRoute,
+    route: tripPricingsRoute,
+  },
+  {
+    path: "/coupons",
+    route: couponCodesRoute,
   },
 ];
 

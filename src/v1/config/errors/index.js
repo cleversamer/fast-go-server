@@ -9,5 +9,6 @@ module.exports.system = require("./common/system");
 
 module.exports.serverError = require("./system/serverError");
 module.exports.tripPricing = require("./system/tripPricing");
+module.exports.couponCode = require("./system/couponCode");
 
 module.exports.notification = require("./cloud/notification");
