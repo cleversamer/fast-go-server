@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose");
+const { Schema } = require("mongoose");
 
-const clientSchema = [
+module.exports.client = [
   "_id",
   "requestURL",
   "name",
@@ -10,7 +10,7 @@ const clientSchema = [
   "date",
 ];
 
-const serverErrorSchema = new Schema(
+const schema = new Schema(
   {
     // The request URL where the error happened
     requestURL: {
@@ -54,14 +54,4 @@ const serverErrorSchema = new Schema(
   }
 );
 
-//////////////////// METHODS ////////////////////
-serverErrorSchema.methods.addOccur = function () {
-  this.occurs = this.occurs + 1;
-};
-
-const ServerError = model("Error", serverErrorSchema);
-
-module.exports = {
-  ServerError,
-  clientSchema,
-};
+module.exports.mongodb = schema;

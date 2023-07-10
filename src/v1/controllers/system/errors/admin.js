@@ -1,4 +1,4 @@
-const { clientSchema } = require("../../../models/system/serverError.model");
+const { clientSchema } = require("../../../models/system/serverError");
 const { errorsService, excelService } = require("../../../services");
 const { ApiError } = require("../../../middleware/apiError");
 const httpStatus = require("http-status");

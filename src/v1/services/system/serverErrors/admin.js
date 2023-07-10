@@ -1,4 +1,4 @@
-const { ServerError } = require("../../../models/system/serverError.model");
+const { ServerError } = require("../../../models/system/serverError");
 
 module.exports.getAllErrors = async (page, limit) => {
   try {

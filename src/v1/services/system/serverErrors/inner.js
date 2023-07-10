@@ -1,4 +1,4 @@
-const { ServerError } = require("../../../models/system/serverError.model");
+const { ServerError } = require("../../../models/system/serverError");
 const { sendNotificationToAdmins } = require("../../user/users/notifications");
 const { admin: adminNotifications } = require("../../../config/notifications");
 
