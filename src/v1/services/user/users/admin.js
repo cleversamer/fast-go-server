@@ -120,6 +120,7 @@ module.exports.getAllDrivers = async (filter, page, limit) => {
         return await User.find({
           role: "driver",
           "verified.driver": false,
+          "driverStatus.rejected": false,
         })
           .sort({ _id: -1 })
           .skip((page - 1) * limit)
@@ -128,6 +129,7 @@ module.exports.getAllDrivers = async (filter, page, limit) => {
       case "rejected":
         return await User.find({
           role: "driver",
+          "verified.driver": false,
           "driverStatus.rejected": true,
         })
           .sort({ _id: -1 })
