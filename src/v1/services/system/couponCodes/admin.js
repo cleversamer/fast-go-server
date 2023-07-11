@@ -34,7 +34,7 @@ module.exports.addCouponCode = async (code, discountPercentage) => {
     if (err.code == errors.codes.duplicateIndexKey) {
       const statusCode = httpStatus.FORBIDDEN;
       const message = errors.couponCode.alreadyAdded;
-      throw new ApiError(statusCode, message);
+      err = new ApiError(statusCode, message);
     }
 
     throw err;

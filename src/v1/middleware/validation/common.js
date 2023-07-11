@@ -484,12 +484,30 @@ module.exports.checkToLatitude = check("toLatitude")
   .isFloat({ min: -90, max: 90 })
   .withMessage(errors.system.invalidCoordintes);
 
+module.exports.checkPaymentCardId = check("paymentCardId")
+  .isMongoId()
+  .withMessage(errors.paymentCard.invalidId);
+
 module.exports.checkPaymentCardCode = check("cardCode")
   .isLength({
     min: paymentCardValidation.code.exactLength,
     max: paymentCardValidation.code.exactLength,
   })
   .withMessage(errors.paymentCard.invalidCode);
+
+module.exports.checkPaymentCardBalance = check("balance")
+  .isFloat({
+    min: paymentCardValidation.balance.min,
+    max: paymentCardValidation.balance.max,
+  })
+  .withMessage(errors.paymentCard.invalidBalance);
+
+module.exports.checkPaymentCardsCount = check("count")
+  .isInt({
+    min: paymentCardValidation.count.min,
+    max: paymentCardValidation.count.max,
+  })
+  .withMessage(errors.paymentCard.invalidCardsCount);
 
 module.exports.checkTripId = check("tripId")
   .isMongoId()

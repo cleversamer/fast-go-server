@@ -1,7 +1,7 @@
 const { Schema, Types } = require("mongoose");
 const { paymentCard: config } = require("../../../config/models");
 
-module.exports.client = ["_id", "charger", "balance"];
+module.exports.client = ["_id", "code", "charger", "balance"];
 
 module.exports.mongodb = new Schema(
   {
