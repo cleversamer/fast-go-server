@@ -230,10 +230,10 @@ const schema = new Schema(
     // The device token of the user (Used for sending notifications to it)
     deviceToken: {
       type: String,
-      required: true,
       trim: true,
       minlength: config.deviceToken.minLength,
       maxlength: config.deviceToken.maxLength,
+      default: config.deviceToken.default,
     },
     // The last login date of the user
     lastLogin: {

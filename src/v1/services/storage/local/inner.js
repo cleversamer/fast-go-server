@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const { server } = require("../../../config/system");
 const utils = require("../../../utils");
 
-module.exports.storeFile = async (file, title = "") => {
+module.exports.storeFile = async (file, title = "", compress = true) => {
   let path = "";
 
   try {
@@ -17,23 +17,19 @@ module.exports.storeFile = async (file, title = "") => {
       : crypto.randomUUID();
 
     // Get file's extenstion
-    const nameParts = file.name.split(".");
-    const extension = nameParts[nameParts.length - 1] || "jpg";
+    const extension = "jpg";
 
     // Writing file to local disk storage
     const name = utils.filterName(`${diskName}.${extension}`);
     path = `/${name}`;
     fs.writeFileSync(`./uploads${path}`, readFile, "utf8");
 
-    // Check if file is a photo and compress it
-    if (server.SUPPORTED_PHOTO_EXTENSIONS.includes(extension)) {
-      await this.compressPhoto(`./uploads${path}`);
-      return { originalName: file.name, name, path };
+    if (compress) {
+      const compressedPath = await this.compressPhoto(`./uploads${path}`);
+      return { originalName: file.name, name, path: compressedPath };
     } else {
       return { originalName: file.name, name, path };
     }
-
-    // TODO: check if file is a video and compress it
   } catch (err) {
     // Delete stored file in case of error
     await this.deleteFile(path);

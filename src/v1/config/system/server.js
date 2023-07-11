@@ -20,7 +20,7 @@ module.exports.BUCKET_NAME = "fast-go-bucket";
 
 module.exports.MAX_FILE_UPLOAD_SIZE = 5; // In MegaBytes
 
-module.exports.MAX_REQ_BODY_SIZE = 10 * 1024; // In KiloBytes
+module.exports.MAX_REQ_BODY_SIZE = 20 * 1024; // In KiloBytes
 
 module.exports.SUPPORTED_LANGUAGES = ["en", "ar"];
 

@@ -6,6 +6,8 @@ const {
   excelService,
   notificationsService,
   tripsService,
+  authService,
+  carsService,
 } = require("../../../services");
 const success = require("../../../config/success");
 
@@ -154,6 +156,64 @@ module.exports.getAllPassengers = async (req, res, next) => {
     };
 
     res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.addDriver = async (req, res, next) => {
+  try {
+    const {
+      // personal info
+      email,
+      phoneICC,
+      phoneNSN,
+      firstName,
+      lastName,
+      gender,
+      // car info
+      type,
+      plateNumber,
+      productionYear,
+      model,
+      color,
+      avatar,
+      photo1,
+      photo2,
+      photo3,
+      photo4,
+      brochure,
+      driverLicense,
+      insurance,
+      passport,
+    } = req.body;
+
+    await usersService.addDriver(
+      email,
+      phoneICC,
+      phoneNSN,
+      firstName,
+      lastName,
+      gender,
+      type,
+      plateNumber,
+      productionYear,
+      model,
+      color,
+      avatar,
+      photo1,
+      photo2,
+      photo3,
+      photo4,
+      brochure,
+      driverLicense,
+      insurance,
+      passport
+    );
+
+    const response = success.user.driverAdded;
+
+    res.status(httpStatus.CREATED).json(response);
   } catch (err) {
     next(err);
   }

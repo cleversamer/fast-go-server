@@ -106,6 +106,24 @@ module.exports.validateDeleteSavedPlace = [
   commonMiddleware.next,
 ];
 
+module.exports.validateAddDriver = [
+  // driver's info validation
+  commonMiddleware.checkEmail,
+  commonMiddleware.checkPhoneICC,
+  commonMiddleware.checkPhoneNSN,
+  commonMiddleware.checkFirstName,
+  commonMiddleware.checkLastName,
+  commonMiddleware.checkGender,
+  // driver's car validation
+  commonMiddleware.checkPlateNumber,
+  commonMiddleware.checkCarColor,
+  commonMiddleware.checkCarModel,
+  commonMiddleware.checkCarProductionYear,
+  commonMiddleware.checkCarType,
+  // next
+  commonMiddleware.next,
+];
+
 module.exports.validateUpdateAllDriversProfitRate = [
   commonMiddleware.checkDriverProfitRate,
   commonMiddleware.next,

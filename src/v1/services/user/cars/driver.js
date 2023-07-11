@@ -22,7 +22,7 @@ module.exports.addCar = async (
 ) => {
   try {
     // Check if the driver has added a car before
-    if (user.carId) {
+    if (driver.carId) {
       const statusCode = httpStatus.FORBIDDEN;
       const message = errors.user.addedCarBefore;
       throw new ApiError(statusCode, message);
@@ -43,16 +43,18 @@ module.exports.addCar = async (
     // Upload photos to the storage bucket
     const photoURLs = {};
     Object.keys(photos).forEach(async (key) => {
-      // Store file locally in the `uploads` folder
-      const localPhoto = await localStorage.storeFile(photos[key]);
+      try {
+        // Store file locally in the `uploads` folder
+        const localPhoto = await localStorage.storeFile(photos[key]);
 
-      // Upload file from `uploads` folder to cloud bucket
-      const cloudPhotoURL = await cloudStorage.uploadFile(localPhoto);
+        // Upload file from `uploads` folder to cloud bucket
+        const cloudPhotoURL = await cloudStorage.uploadFile(localPhoto);
 
-      // Delete local file
-      await localStorage.deleteFile(localPhoto.path);
+        // Delete local file
+        await localStorage.deleteFile(localPhoto.path);
 
-      photoURLs[key] = cloudPhotoURL;
+        photoURLs[key] = cloudPhotoURL;
+      } catch (err) {}
     });
 
     // Create new car for the driver

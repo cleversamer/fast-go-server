@@ -39,6 +39,13 @@ module.exports = (router) => {
   );
 
   //////////////////// DRIVERS ////////////////////
+  router.post(
+    "/admin/drivers/add",
+    // userValidator.validateAddDriver,
+    auth("updateAny", "user"),
+    usersController.addDriver
+  );
+
   router.put(
     "/admin/drivers/profit-rate/update",
     userValidator.validateUpdateAllDriversProfitRate,

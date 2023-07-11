@@ -2,6 +2,8 @@ const { User } = require("../../../models/user/user");
 const httpStatus = require("http-status");
 const { ApiError } = require("../../../middleware/apiError");
 const errors = require("../../../config/errors");
+const innerUserServices = require("./inner");
+const carsServices = require("../cars");
 
 module.exports.findUserByEmailOrPhone = async (
   emailOrPhone,
@@ -150,6 +152,81 @@ module.exports.getAllPassengers = async (page, limit) => {
       .skip((page - 1) * limit)
       .limit(limit);
   } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.addDriver = async (
+  email,
+  phoneICC,
+  phoneNSN,
+  firstName,
+  lastName,
+  gender,
+  type,
+  plateNumber,
+  productionYear,
+  model,
+  color,
+  avatar,
+  photo1,
+  photo2,
+  photo3,
+  photo4,
+  brochure,
+  driverLicense,
+  insurance,
+  passport
+) => {
+  try {
+    const referralCode = await innerUserServices.genUniqueReferralCode();
+
+    const driver = new User({
+      firstName,
+      lastName,
+      email,
+      role: "driver",
+      gender,
+      referral: {
+        code: referralCode,
+        number: 0,
+      },
+      phone: {
+        full: `${phoneICC}${phoneNSN}`,
+        icc: phoneICC,
+        nsn: phoneNSN,
+      },
+    });
+
+    // Save driver to the DB
+    await driver.save();
+
+    const car = await carsServices.addCarToDriver(
+      driver,
+      plateNumber,
+      productionYear,
+      model,
+      color,
+      avatar,
+      photo1,
+      photo2,
+      photo3,
+      photo4,
+      brochure,
+      driverLicense,
+      insurance,
+      passport,
+      type
+    );
+
+    return { driver, car };
+  } catch (err) {
+    if (err.code === errors.codes.duplicateIndexKey) {
+      const statusCode = httpStatus.FORBIDDEN;
+      const message = errors.auth.phoneUsed;
+      throw new ApiError(statusCode, message);
+    }
+
     throw err;
   }
 };
