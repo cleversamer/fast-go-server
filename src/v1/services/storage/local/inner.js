@@ -1,7 +1,6 @@
 const fs = require("fs");
 const sharp = require("sharp");
 const crypto = require("crypto");
-const { server } = require("../../../config/system");
 const utils = require("../../../utils");
 
 module.exports.storeFile = async (file, title = "", compress = true) => {
@@ -25,8 +24,10 @@ module.exports.storeFile = async (file, title = "", compress = true) => {
     fs.writeFileSync(`./uploads${path}`, readFile, "utf8");
 
     if (compress) {
-      const compressedPath = await this.compressPhoto(`./uploads${path}`);
-      return { originalName: file.name, name, path: compressedPath };
+      const isCompressed = await this.compressPhoto(`./uploads${path}`);
+      if (isCompressed) {
+        return { originalName: file.name, name, path };
+      }
     } else {
       return { originalName: file.name, name, path };
     }
@@ -60,7 +61,7 @@ module.exports.compressPhoto = async (path) => {
 
     fs.writeFileSync(path, outputBuffer);
 
-    return path;
+    return outputBuffer;
   } catch (err) {
     await this.deleteFile(path);
 
