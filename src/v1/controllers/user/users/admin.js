@@ -42,7 +42,7 @@ module.exports.exportUsersToExcel = async (req, res, next) => {
     // Create the response object
     const response = {
       type: "file/xlsx",
-      path: filePath,
+      url: filePath,
     };
 
     // Send response back to the client

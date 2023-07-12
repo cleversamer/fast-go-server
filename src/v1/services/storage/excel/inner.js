@@ -28,17 +28,8 @@ module.exports.exportUsersToExcelFile = async (users = []) => {
       "عدد الإشعارات الغير مقروءة",
       "مسجّل بواسطة",
       "اللغة المفضّلة",
-      "وضع العرض",
-      "عدد النشاطات داخل التطبيق",
       "رمز الإحالة",
       "عدد الإحالات",
-      "رابط Instagram",
-      "رابط Twitter",
-      "رابط LinkedIn",
-      "رابط Facebook",
-      "رابط Youtube",
-      "رابط Website",
-      "رابط Other",
       "آخر دخول",
       "الحساب محذوف",
       "رابط الصورة الشخصيّة",
@@ -53,7 +44,7 @@ module.exports.exportUsersToExcelFile = async (users = []) => {
         user.getNotifications().length - seenNotifications;
 
       worksheet.addRow([
-        user.getName(),
+        user.getFullName(),
         user.getEmail(),
         user.getPhone(),
         user.getRole() === "user" ? "مستخدم" : "آدمن",
@@ -65,17 +56,8 @@ module.exports.exportUsersToExcelFile = async (users = []) => {
         unseenNotifications,
         user.getAuthType() === "email" ? "البريد الإلكتروني" : "حساب جوجل",
         user.getLanguage() === "en" ? "الإنجليزية" : "العربية",
-        user.getDisplayMode(),
-        user.getNoOfRequests(),
         user.getReferralCode(),
         user.getNoOfReferrals(),
-        user.getLink("instagram") || "لا يوجد",
-        user.getLink("twitter") || "لا يوجد",
-        user.getLink("linkedin") || "لا يوجد",
-        user.getLink("facebook") || "لا يوجد",
-        user.getLink("youtube") || "لا يوجد",
-        user.getLink("website") || "لا يوجد",
-        user.getLink("other") || "لا يوجد",
         user.getLastLogin().toLocaleString(),
         user.isDeleted() ? "نعم" : "لا",
         user.getAvatarURL() || "لا يوجد",
@@ -85,7 +67,7 @@ module.exports.exportUsersToExcelFile = async (users = []) => {
     // Decide excel's file
     const fileName =
       utils.filterName(
-        `${APP_NAME_EN.toLowerCase()}_users_${getCurrentDate()}`
+        `${APP_NAME_EN.toLowerCase()}_users_${utils.getCurrentDate()}`
       ) + ".xlsx";
     filePath = `/${fileName}`;
 
@@ -146,8 +128,9 @@ module.exports.exportErrorsToExcelFile = async (errors = []) => {
 
     // Decide excel's file
     const fileName =
-      filterName(`${APP_NAME_EN.toLowerCase()}_errors_${getCurrentDate()}`) +
-      ".xlsx";
+      filterName(
+        `${APP_NAME_EN.toLowerCase()}_errors_${utils.getCurrentDate()}`
+      ) + ".xlsx";
     filePath = `/${fileName}`;
 
     // Generate and save excel file
