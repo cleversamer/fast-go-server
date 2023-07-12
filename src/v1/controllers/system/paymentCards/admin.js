@@ -1,6 +1,6 @@
 const httpStatus = require("http-status");
 const _ = require("lodash");
-const { clientSchema } = require("../../../models/user/paymentCard");
+const { clientSchema } = require("../../../models/system/paymentCard");
 const { paymentCardsService } = require("../../../services");
 const success = require("../../../config/success");
 

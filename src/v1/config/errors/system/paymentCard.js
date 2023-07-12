@@ -1,4 +1,4 @@
-const { code, balance, count } = require("../../models/user/paymentCard");
+const { code, balance, count } = require("../../models/system/paymentCard");
 
 module.exports = Object.freeze({
   invalidId: {

@@ -1,4 +1,4 @@
-const { PaymentCard } = require("../../../models/user/paymentCard");
+const { PaymentCard } = require("../../../models/system/paymentCard");
 const httpStatus = require("http-status");
 const { ApiError } = require("../../../middleware/apiError");
 const errors = require("../../../config/errors");

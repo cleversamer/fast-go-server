@@ -39,4 +39,6 @@ const schema = new Schema(
   }
 );
 
+schema.index({ role: 1 });
+
 module.exports.mongodb = schema;

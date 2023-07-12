@@ -1,10 +1,12 @@
 const router = require("express").Router();
+
 const authRoute = require("./user/auth");
 const usersRoute = require("./user/users");
 const tripsRoute = require("./user/trips");
-const challengesRoute = require("./user/challenges");
-const paymentCardsRoute = require("./user/paymentCards");
 const carsRoute = require("./user/cars");
+
+const challengesRoute = require("./system/challenges");
+const paymentCardsRoute = require("./system/paymentCards");
 const errorsRoute = require("./system/errors");
 const tripPricingsRoute = require("./system/tripPricings");
 const couponCodesRoute = require("./system/couponCodes");
