@@ -116,7 +116,7 @@ module.exports.sendNotificationToUsers = async (
           return {};
         }
       })
-      .filter((user) => user.isNotificationsActive);
+      .filter((user) => user.active);
 
     // Get device tokens for english users
     const enTokens = mappedUsers
@@ -178,13 +178,15 @@ module.exports.sendNotificationToUser = async (
     getIO().to(user._id).emit("notification received", notification);
 
     // Send notification to the user by FCM
-    notificationsService.sendPushNotification(
-      notification.title[user.display.language],
-      notification.body[user.display.language],
-      [user.deviceToken],
-      callback,
-      notification.photoURL
-    );
+    if (user.isNotificationsActive()) {
+      notificationsService.sendPushNotification(
+        notification.title[user.display.language],
+        notification.body[user.display.language],
+        [user.deviceToken],
+        callback,
+        notification.photoURL
+      );
+    }
 
     return true;
   } catch (err) {
