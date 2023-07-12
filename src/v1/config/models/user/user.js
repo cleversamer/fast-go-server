@@ -30,7 +30,7 @@ module.exports = {
   ],
   savedPlaceTitle: { minLength: 6, maxLength: 128 },
   notificationTitle: { min: 3, max: 128 },
-  notificationBody: { min: 3, max: 265 },
+  notificationBody: { min: 3, max: 256 },
   profitRate: { min: 0, max: 1, default: 0.15 },
   driverStatuses: ["all", "pending", "rejected"],
 };
