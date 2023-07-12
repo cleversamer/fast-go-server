@@ -13,4 +13,5 @@ module.exports = Object.freeze({
   car: allRights,
   tripPricing: allRights,
   couponCode: allRights,
+  challenge: allRights,
 });

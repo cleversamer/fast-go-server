@@ -6,8 +6,7 @@ const {
   excelService,
   notificationsService,
   tripsService,
-  authService,
-  carsService,
+  challengesService,
 } = require("../../../services");
 const success = require("../../../config/success");
 
@@ -66,7 +65,7 @@ module.exports.sendNotification = async (req, res, next) => {
 
     res.status(httpStatus.OK).json(notification);
 
-    await usersService.sendNotification(userIds, notification);
+    await usersService.sendNotificationToUsers(userIds, notification);
   } catch (err) {
     next(err);
   }
@@ -188,7 +187,7 @@ module.exports.addDriver = async (req, res, next) => {
       passport,
     } = req.body;
 
-    await usersService.addDriver(
+    const { driver } = await usersService.addDriver(
       email,
       phoneICC,
       phoneNSN,
@@ -214,6 +213,9 @@ module.exports.addDriver = async (req, res, next) => {
     const response = success.user.driverAdded;
 
     res.status(httpStatus.CREATED).json(response);
+
+    // Register challenges for the user
+    await challengesService.addChallengesProgressToUser(driver);
   } catch (err) {
     next(err);
   }

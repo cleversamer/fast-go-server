@@ -2,6 +2,7 @@ const {
   authService,
   emailService,
   usersService,
+  challengesService,
 } = require("../../../services");
 const httpStatus = require("http-status");
 const { clientSchema } = require("../../../models/user/user");
@@ -44,6 +45,9 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
     // Send response back to the client
     res.status(httpStatus.OK).json(response);
 
+    // Register challenges for the user
+    await challengesService.addChallengesProgressToUser(user);
+
     if (isDeleted) {
       // Send welcome back email to user
       await emailService.sendWelcomeBackEmail(
@@ -54,7 +58,14 @@ module.exports.joinWithEmailAndPhone = async (req, res, next) => {
     }
 
     // Apply referral code
-    await usersService.applyReferralCode(user, referralCode);
+    const referralCodeOwner = await usersService.applyReferralCode(
+      user,
+      referralCode
+    );
+
+    if (referralCodeOwner) {
+      await challengesService.addReferralProgressPointToUser(referralCodeOwner);
+    }
   } catch (err) {
     next(err);
   }

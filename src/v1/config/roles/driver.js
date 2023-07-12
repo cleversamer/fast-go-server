@@ -38,4 +38,7 @@ module.exports = Object.freeze({
   car: {
     "create:own": ["*"],
   },
+  challenge: {
+    "read:own": ["*"],
+  },
 });

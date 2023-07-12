@@ -26,4 +26,20 @@ module.exports = {
       `Congratulations! You have successfully referred a new user to our app. As a token of our appreciation, we have credited your account with a reward. Thank you for spreading the word about our app and helping us grow. Keep up the good work!`,
       `تهانينا! لقد نجحت في إحالة مستخدم جديد إلى تطبيقنا. كعربون تقدير منا ، قمنا بإضافة مكافأة إلى حسابك. شكرًا لك على نشر الكلمة حول تطبيقنا ومساعدتنا على النمو. ثابر على العمل الجيد!`
     ),
+
+  newChallengeAdded: () =>
+    new Notificatin(
+      "New Challenge Unleashed!",
+      "إطلاق العنان لتحدي جديد!",
+      "Check out the latest challenge now!",
+      "تفحّص التحدي الأخير الآن!"
+    ),
+
+  completedChallenge: () =>
+    new Notificatin(
+      "Challenge Completed!",
+      "تم إكمال التحدي بنجاح!",
+      "Congratulations! You have successfully completed the challenge. You are a true champion!",
+      "تهانينا! لقد أكملت التحدي بنجاح. أنت بطل حقيقي!"
+    ),
 };

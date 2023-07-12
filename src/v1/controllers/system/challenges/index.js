@@ -1,7 +1,7 @@
-const passengerControllers = require("./passenger");
-const driverControllers = require("./driver");
+const commonControllers = require("./common");
+const adminControllers = require("./admin");
 
 module.exports = {
-  ...passengerControllers,
-  ...driverControllers,
+  ...commonControllers,
+  ...adminControllers,
 };

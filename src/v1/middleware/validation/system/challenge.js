@@ -1,15 +1,15 @@
 const commonMiddleware = require("../common");
 
-module.exports.validateGetMyDriverChallenges = [
-  commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkPage,
-  commonMiddleware.checkLimit,
+module.exports.validateAddChallenge = [
+  commonMiddleware.checkChallengeReward,
+  commonMiddleware.checkChallengeReferralTarget,
+  commonMiddleware.checkChallengeTripTarget,
+  commonMiddleware.checkRole(true),
   commonMiddleware.next,
 ];
 
-module.exports.validateGetMyPassengerChallenges = [
+module.exports.validateDeleteChallenge = [
   commonMiddleware.putQueryParamsInBody,
-  commonMiddleware.checkPage,
-  commonMiddleware.checkLimit,
+  commonMiddleware.checkChallengeId,
   commonMiddleware.next,
 ];

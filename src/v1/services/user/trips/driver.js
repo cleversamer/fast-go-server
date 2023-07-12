@@ -56,7 +56,7 @@ module.exports.approveTrip = async (driver, tripId) => {
     passenger.addPassengerTrip();
     await passenger.save();
 
-    return trip;
+    return { trip, driver, passenger };
   } catch (err) {
     throw err;
   }

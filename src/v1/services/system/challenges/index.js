@@ -1,7 +1,9 @@
-const passengerServices = require("./passenger");
-const driverServices = require("./driver");
+const innerServices = require("./inner");
+const commonServices = require("./common");
+const adminServices = require("./admin");
 
 module.exports = {
-  ...passengerServices,
-  ...driverServices,
+  ...innerServices,
+  ...commonServices,
+  ...adminServices,
 };

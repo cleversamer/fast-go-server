@@ -1,12 +1,12 @@
-const { Schema } = require("mongoose");
-const {
-  user: userConfig,
-  challenge: challengeConfig,
-} = require("../../../config/models");
+const { Schema, Types } = require("mongoose");
+const { challenge: challengeConfig } = require("../../../config/models");
 
 module.exports.client = [
   "_id",
-  "role",
+  "userId",
+  "challengeId",
+  "referralsProgress",
+  "tripsProgress",
   "reward",
   "referralTarget",
   "tripTarget",
@@ -14,11 +14,15 @@ module.exports.client = [
 
 const schema = new Schema(
   {
-    role: {
-      type: String,
-      enum: userConfig.roles.filter((r) => r !== "admin"),
+    userId: {
+      type: Types.ObjectId,
+      ref: "User",
       required: true,
-      trim: true,
+    },
+    challengeId: {
+      type: Types.ObjectId,
+      ref: "Challenge",
+      required: true,
     },
     reward: {
       type: Number,
@@ -38,6 +42,14 @@ const schema = new Schema(
       min: challengeConfig.tripTarget.min,
       max: challengeConfig.tripTarget.max,
     },
+    referralsProgress: {
+      type: Number,
+      default: 0,
+    },
+    tripsProgress: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     // To not avoid empty object when creating the document
@@ -48,6 +60,6 @@ const schema = new Schema(
   }
 );
 
-schema.index({ role: 1 });
+schema.index({ userId: -1 });
 
 module.exports.mongodb = schema;

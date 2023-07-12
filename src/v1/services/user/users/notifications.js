@@ -34,7 +34,7 @@ module.exports.notifyUsersWithUnseenNotifications = async () => {
       return;
     }
 
-    await this.sendNotification(userIds, notification);
+    await this.sendNotificationToUsers(userIds, notification);
   } catch (err) {
     return;
   }
@@ -71,13 +71,17 @@ module.exports.notifyAdminsWithServerErrors = async () => {
       return;
     }
 
-    await this.sendNotification(adminIds, notification);
+    await this.sendNotificationToUsers(adminIds, notification);
   } catch (err) {
     return;
   }
 };
 
-module.exports.sendNotification = async (userIds, notification, callback) => {
+module.exports.sendNotificationToUsers = async (
+  userIds,
+  notification,
+  callback
+) => {
   try {
     // Validate callback function
     callback = typeof callback === "function" ? callback : () => {};
@@ -147,6 +151,37 @@ module.exports.sendNotification = async (userIds, notification, callback) => {
       notification.title.ar,
       notification.body.ar,
       arTokens,
+      callback,
+      notification.photoURL
+    );
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
+
+module.exports.sendNotificationToUser = async (
+  user,
+  notification,
+  callback
+) => {
+  try {
+    // Validate callback function
+    callback = typeof callback === "function" ? callback : () => {};
+
+    // Add notification to user
+    user.addNotification(notification);
+    await user.save();
+
+    // Send notifications to the user by socket
+    getIO().to(user._id).emit("notification received", notification);
+
+    // Send notification to the user by FCM
+    notificationsService.sendPushNotification(
+      notification.title[user.display.language],
+      notification.body[user.display.language],
+      [user.deviceToken],
       callback,
       notification.photoURL
     );

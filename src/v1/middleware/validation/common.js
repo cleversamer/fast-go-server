@@ -12,6 +12,7 @@ const {
   paymentCard: paymentCardValidation,
   trip: tripValidation,
   tripPricing: tripPricingValidation,
+  challenge: challengeValidation,
 } = require("../../config/models");
 const { isValidObjectId } = require("mongoose");
 
@@ -548,6 +549,31 @@ module.exports.checkTripPricingDoorOpeningPrice = check("doorOpeningPrice")
     max: tripPricingValidation.doorOpeningPrice.max,
   })
   .withMessage(errors.tripPricing.invalidDoorOpeningPrice);
+
+module.exports.checkChallengeId = check("challengeId")
+  .isMongoId()
+  .withMessage(errors.challenge.invalidId);
+
+module.exports.checkChallengeTripTarget = check("tripTarget")
+  .isInt({
+    min: challengeValidation.tripTarget.min,
+    max: challengeValidation.tripTarget.max,
+  })
+  .withMessage(errors.challenge.invalidTripTarget);
+
+module.exports.checkChallengeReferralTarget = check("referralTarget")
+  .isInt({
+    min: challengeValidation.referralTarget.min,
+    max: challengeValidation.referralTarget.max,
+  })
+  .withMessage(errors.challenge.invalidReferralTarget);
+
+module.exports.checkChallengeReward = check("reward")
+  .isFloat({
+    min: challengeValidation.reward.min,
+    max: challengeValidation.reward.max,
+  })
+  .withMessage(errors.challenge.invalidReward);
 
 //////////////////// RATE LIMIT ////////////////////
 module.exports.limitSendEmailVerificationCode = rateLimit({

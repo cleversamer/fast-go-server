@@ -43,7 +43,7 @@ module.exports.genUniqueReferralCode = async () => {
 module.exports.applyReferralCode = async (newUser, referralCode) => {
   try {
     if (!referralCode) {
-      return;
+      return null;
     }
 
     // Find the user that has the referral code
@@ -51,11 +51,11 @@ module.exports.applyReferralCode = async (newUser, referralCode) => {
       "referral.code": referralCode,
     });
     if (!referralCodeOwner) {
-      return;
+      return null;
     }
 
     if (newUser._id.toString() === referralCodeOwner._id.toString()) {
-      return;
+      return null;
     }
 
     // Add referral to the user
