@@ -108,3 +108,19 @@ module.exports.addTripProgressPointToUser = async (user) => {
     throw err;
   }
 };
+
+module.exports.resetChallengeProgresses = async () => {
+  try {
+    await ChallengeProgress.updateMany(
+      {},
+      {
+        $set: {
+          referralsProgress: 0,
+          tripsProgress: 0,
+        },
+      }
+    );
+  } catch (err) {
+    throw err;
+  }
+};

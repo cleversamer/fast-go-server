@@ -1,4 +1,8 @@
-const { usersService, scheduleService } = require("../services");
+const {
+  usersService,
+  scheduleService,
+  challengesService,
+} = require("../services");
 
 module.exports = () => {
   try {
@@ -11,6 +15,12 @@ module.exports = () => {
     scheduleService.scheduleHourlyEvent(async () => {
       try {
         await usersService.notifyAdminsWithServerErrors();
+      } catch (err) {}
+    });
+
+    scheduleService.scheduleFridayEvent(async () => {
+      try {
+        await challengesService.resetChallengeProgresses();
       } catch (err) {}
     });
   } catch (err) {}
