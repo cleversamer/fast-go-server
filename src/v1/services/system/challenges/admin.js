@@ -29,7 +29,6 @@ module.exports.addChallenge = async (
     const existingSameChallenges = await Challenge.countDocuments({
       tripTarget,
       referralTarget,
-      reward,
       role,
     });
 

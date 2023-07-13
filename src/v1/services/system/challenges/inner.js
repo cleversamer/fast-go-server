@@ -64,6 +64,10 @@ module.exports.addReferralProgressPointToUser = async (user) => {
           challenge.resetProgress();
           await challenge.save();
 
+          // Add reward to user's balance
+          user.addBalance(challenge.reward);
+          await user.save();
+
           // Notify user of challenge progress completion
           const notification = userNotifications.completedChallenge();
           await usersService.sendNotificationToUser(user, notification);
@@ -94,6 +98,10 @@ module.exports.addTripProgressPointToUser = async (user) => {
           // Reset challenge's progress
           challenge.resetProgress();
           await challenge.save();
+
+          // Add reward to user's balance
+          user.addBalance(challenge.reward);
+          await user.save();
 
           // Notify user of challenge progress completion
           const notification = userNotifications.completedChallenge();
